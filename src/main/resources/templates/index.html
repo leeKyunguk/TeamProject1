@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+	<header>
+		<div class="inner">
+			<div class="inner-item">
+				<div class="logo">
+					<a th:href="@{/}">로고</a>
+				</div>
+				<div class="right-form">
+					<div class="search-wrap">
+						<div class="search">
+							<div class="shadow"></div>
+							<div class="textfield">
+								<input type="text" placeholder="검색"/>
+								<div class="search-icon"></div>
+								<div class="search-closer"></div>
+							</div>
+							<div class="autocompletes">
+								<h3>최근검색어</h3>
+								<ul>
+									<li><a href="">이름 뭐시기 뭐시기</a></li>
+									<li><a href="">이름 뭐시기 뭐시기</a></li>
+									<li><a href="">회사이름 뭐시기 뭐시기</a></li>
+								</ul>
+							</div>
+						</div>
+						<!-- 
+						<form action="connections" method="post">
+							<input type="text" name="connections" /> <input type="submit"
+								value="검색" />
+						</form>
+						-->
+					</div>
+					<div class="nav_link">
+						<a th:href="@{/login}">Login</a>
+						<a th:href="@{/signUp}">Join</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<nav>
+		<ul>
+			<li><a th:href="@{/viewJobsPostings}">채용공고</a></li>
+			<li><a th:href="@{/connections}">커넥션</a></li>
+			<li><a th:href="@{/communityPosts}">커뮤니티</a></li>
+			<li><a th:href="@{/faq}">고객센터</a></li>
+		</ul>
+	</nav>
+	<main>
+		<div class="content">
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</main>
+	<footer>
+		<div class="footer_logo">로고</div>
+		<p>사람인 고객센터 051-912-1000</p>
+		<p>이메일 green.greeg</p>
+		<p>주소 중앙대로 749 병항빌딩 4층</p>
+	</footer>
+</body>
+</html>
