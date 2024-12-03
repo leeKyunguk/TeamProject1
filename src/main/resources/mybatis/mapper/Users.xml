@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.SignUpDao">
+
+    <!-- Users 테이블 데이터 삽입 -->
+    <insert id="insertUsers">
+        INSERT INTO users (usersId, password, email, role, address)
+        VALUES (#{users.usersId}, #{users.password}, #{users.email}, #{users.role}, #{users.address});
+    </insert>
+
+    <!-- 기업 데이터 삽입 -->
+    <insert id="insertCompany">
+        INSERT INTO company (usersId, comName, businessNo, ceoName, comType, comSector, employeeCount, sales, tel, comDescription)
+        VALUES (#{company.usersId}, #{company.comName}, #{company.businessNo}, #{company.ceoName}, #{company.comType}, #{company.comSector}, #{company.employeeCount}, #{company.sales}, #{company.tel}, #{company.comDescription});
+    </insert>
+
+    <!-- 구직자 데이터 삽입 -->
+    <insert id="insertJobSeeker">
+        INSERT INTO userprofiles (usersId, userName, nickname, resiNumber, gender, techStack, uSalary, phone)
+        VALUES (#{userProfiles.usersId}, #{userProfiles.userName}, #{userProfiles.nickname}, #{userProfiles.resiNumber}, #{userProfiles.gender}, #{userProfiles.techStack}, #{userProfiles.uSalary}, #{userProfiles.phone});
+    </insert>
+
+    <!-- 사용자 ID 중복 확인 -->
+    <select id="existsByUserId" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM users WHERE usersId = #{usersId})
+    </select>
+
+    <!-- 이메일 중복 확인 -->
+    <select id="existsByEmail" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM users WHERE email = #{email})
+    </select>
+
+    <!-- 별칭 중복 확인 -->
+    <select id="existsByNickname" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM userprofiles WHERE nickname = #{nickname})
+    </select>
+
+    <!-- 주민번호 중복 확인 -->
+    <select id="existsByResiNumber" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM userprofiles WHERE resiNumber = #{resiNumber})
+    </select>
+
+    <!-- 연락처 중복 확인 -->
+    <select id="existsByPhone" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM userprofiles WHERE phone = #{phone})
+    </select>
+
+    <!-- 사업자 등록번호 중복 확인 -->
+    <select id="existsByBusinessNo" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM company WHERE businessNo = #{businessNo})
+    </select>
+
+    <!-- 기업 연락처 중복 확인 -->
+    <select id="existsByTel" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM company WHERE tel = #{tel})
+    </select>
+
+</mapper>
+
