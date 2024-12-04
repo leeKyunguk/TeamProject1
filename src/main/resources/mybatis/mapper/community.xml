@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Daily2.dao.BoardDao">
+
+    <!-- 게시글 목록 조회 -->
+    <select id="getBoardList" resultType="com.example.Daily2.dto.Board">
+        SELECT 
+            b.boardNo,
+            b.boardTitle,
+            b.boardContent,
+            b.boardRegDate,
+            IFNULL(up.nickname, c.comName) AS writerName
+        FROM board b
+        LEFT JOIN userProfiles up ON b.userNo = up.userNo
+        LEFT JOIN company c ON b.comNo = c.comNo
+        ORDER BY b.boardRegDate DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <!-- 게시글 상세 조회 -->
+    <select id="getBoardDetail" resultType="com.example.Daily2.dto.Board">
+        SELECT 
+            b.boardNo,
+            b.boardTitle,
+            b.boardContent,
+            b.boardRegDate,
+            IFNULL(up.nickname, c.comName) AS writerName
+        FROM board b
+        LEFT JOIN userProfiles up ON b.userNo = up.userNo
+        LEFT JOIN company c ON b.comNo = c.comNo
+        WHERE b.boardNo = #{boardNo};
+    </select>
+
+    <!-- 댓글 목록 조회 -->
+    <select id="getCommentsByBoardNo" resultType="com.example.Daily2.dto.Comment">
+        SELECT 
+            c.commentNo,
+            c.boardNo,
+            c.userNo,
+            c.comNo,
+            c.adminName,
+            c.commentContent,
+            c.commentRegDate,
+            IFNULL(up.nickname, com.comName) AS writerName
+        FROM comment c
+        LEFT JOIN userProfiles up ON c.userNo = up.userNo
+        LEFT JOIN company com ON c.comNo = com.comNo
+        WHERE c.boardNo = #{boardNo}
+        ORDER BY c.commentRegDate ASC;
+    </select>
+
+    <!-- 게시글 총 개수 조회 -->
+    <select id="getBoardCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM board;
+    </select>
+
+    <!-- 게시글 등록 -->
+    <insert id="insertBoard">
+        INSERT INTO board (userNo, comNo, adminName, boardTitle, boardContent, boardRegDate)
+        VALUES (#{userNo}, #{comNo}, #{adminName}, #{boardTitle}, #{boardContent}, NOW());
+    </insert>
+
+    <!-- 댓글 등록 -->
+    <insert id="insertComment">
+        INSERT INTO comment (boardNo, userNo, comNo, adminName, commentContent, commentRegDate)
+        VALUES (#{boardNo}, #{userNo}, #{comNo}, #{adminName}, #{commentContent}, NOW());
+    </insert>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deleteBoard">
+        DELETE FROM board WHERE boardNo = #{boardNo};
+    </delete>
+
+    <!-- 댓글 삭제 -->
+    <delete id="deleteComment">
+        DELETE FROM comment WHERE commentNo = #{commentNo};
+    </delete>
+
+</mapper>
+
