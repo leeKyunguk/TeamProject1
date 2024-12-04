@@ -168,6 +168,7 @@ public class MyController {
         return "/userDetail";
 	}
 	
+	
 	@RequestMapping("/CompanyModify")
     public String modifyCompany(@ModelAttribute Company company, HttpSession session, Model model) {        
         company.setUsersId(company.getUsersId());
