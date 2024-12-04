@@ -1,202 +1,319 @@
 @charset "UTF-8";
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
-body{
-	color:#1D1D1D;
+
+html {
+	--color-white: #fff;
+	--color-black: #000;
+	--color-font: #1d1d1d;
+	--color-font-darkgray: #6e6e6e;
+	--color-font-middlegray: #b7b7b7;
+	--color-font-lightgray: #f5f5f5;
+	--color-link: #0071e3;
+	--color-link-focus: #81b9f1;
+	--color-boder: #d2d2d2;
+	--color-header: #3a4a4a;
+	--color-section: #f5f5f5;
+	--color-shadow: rgba(0, 0, 0, 0.4);
+}
+
+body {
+	color: #1D1D1D;
+	font-family: "Roboto", "Noto Sans KR", sans-serif;
 }
 
 ul, li {
-    list-style: none;
+	list-style: none;
 }
+
 a {
-	color:#1D1D1D;
-    text-decoration: none;
+	color: #1D1D1D;
+	text-decoration: none;
 }
 
 /*헤더*/
-header{
+header {
+	--header-height: 44px;
+	background-color: var(--color-header);
+	position: relative;
+	z-index: 9;
+	transition: 0.4s;
+	padding: 20px 0;
+}
+
+header .inner {
+	width: 1020px;
+	margin: 0 auto;
+}
+
+header .menu {
+	height: var(--header-height);
 	display: flex;
-	justify-content: center;
-}
-.inner {
-	width: 1200px;
-	padding: 30px 0;
-}
-
-.inner-item {
-	position:relative;
-}
-.inner-item a {
-    font-size: 30px;
-}
-.inner-item .logo {
-	text-align: center;
-}
-.right-form{
+	align-items: center; /* 세로 가운데 정렬 */
 	width: 100%;
-	display:flex;
-	position: absolute;
-	top: 0;
-}
-.right-form {
-	padding: 8px 0;
+	position: relative;
 }
 
-.right-form .search-wrap{
+header .menu>li {
+	display: flex;
+	align-items: center;
+	transition: 0.4s;
+	align-items: center;
+}
+
+header .menu>li>a {
+	padding: 0 20px;
+	font-size: 18px;
+	display: flex;
+	align-items: center;
+	color: var(--color-font-lightgray);
+	opacity: 0.8;
+	text-decoration: none;
+}
+
+header .menu>li>a:hover {
+	opacity: 1;
+}
+
+header .menu .search-starter {
+	position:absolute;
+	right: 200px;
+}
+
+
+header .menu li:last-child {
+	position:absolute;
+	right: 0;
+}
+header .menu li:last-child a {
+	font-size: 14px;
+}
+
+header .menu li:nth-last-child(2) {
+	position:absolute;
+	right: 100px;
+}
+
+header .menu li:nth-last-child(2) a {
+	font-size: 14px;
+}
+
+header ul.menu li.menu-starter {
+	display: none;
+}
+
+
+
+header .menu>li.apple-logo>a, header .menu li.search-starter>a {
+	width: 45px;
+	height: 45px;
+	text-indent: -9999px;
+	background-color: #F5F5F5;
+	mask: url("/images/search.png") no-repeat center;
+	-webkit-mask: url("/images/search.png") no-repeat center;
+	mask-size: contain;
+	-webkit-mask-size: contain;
+	display: inline-block;
+	cursor: pointer;
+	mask-size: 60%; /* 아이콘 크기 비율 조정 */
+	-webkit-mask-size: 60%;
+}
+
+header .menu li.search-starter>a:hover {
+	opacity: 1; /* 호버 시 더 강조 */
+}
+
+header .menu li.search-starter>a {
+	background-image: url("/images/search.png");
+}
+
+/* HEADER / SEACH */
+header .search-wrap {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
+	visibility: hidden;
+	opacity: 0;
+	transition: 0.4;
 }
-.right-form .search {
+
+header .search {
 	max-width: 680px;
 	margin: 0 auto;
 	position: relative;
-} 
-.right-form .search .shadow{
+}
+
+header .search .shadow {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, .4);
+	background-color: var(--color-shadow);
 }
-.right-form .search .textfield {
+
+header .search .textfield {
 	position: relative;
 }
-.right-form .search input {
+
+header .search input {
 	width: 100%;
-	height: 44px;
+	height: var(--header-height);
 	padding: 0 40px;
 	border: none;
 	outline: none;
 	box-sizing: border-box;
-	background-color:transparent;
-	font-size:17px;
-	color:#fff;
-}
-.right-form .search .search-icon {
-	width:30px;
-	height: 34px;
-	background-image:url("/images/search.png");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 100;
 	background-color: transparent;
-	opacity: .4;
+	font-size: 17px;
+	color: var(--color-white);
 }
-.right-form .search .search-closer {
-	width:30px;
-	height: 34px;
-	background-image:url("/images/close.png");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
+
+.search-closer {
+	width: 40px;
+	height: var(--header-height);
+	background-color: #F5F5F5; /* 아이콘 색상 */
+	mask: url("/images/close.png") no-repeat center;
+	-webkit-mask: url("/images/close.png") no-repeat center;
+	mask-size: contain;
 	position: absolute;
 	top: 0;
 	right: 0;
-	z-index: 100;
-	background-color: transparent;
-	opacity: .4;
-	cursor:pointer;
+	-webkit-mask-size: contain;
+	cursor: pointer;
+	opacity: 0.4;
+	mask-size: 60%; /* 아이콘 크기 비율 조정 */
+	-webkit-mask-size: 60%;
 }
-.right-form .search .search-closer:hover {
+
+header .search .search-closer:hover {
 	opacity: 1;
 }
-.right-form .search .autocompletes {
+
+header .search .autocompletes {
 	width: 100%;
 	padding: 26px 40px 20px;
 	border-radius: 0 0 18px 18px;
 	box-sizing: border-box;
-	background-color:#fff;
+	background-color: var(--color-white);
 	position: absolute;
-	top: 44px;
+	top: var(--header-height);
 	left: 0;
 }
-.right-form .search .autocompletes h3 {
-	font-size: 16px;
-	color:#6E6E6E;
+
+header .search .autocompletes h3 {
+	font-size: 12px;
+	color: var(--color-font-darkgray);
 	margin-bottom: 12px;
 }
 
-.right-form .search .autocompletes ul li a {
+header .search .autocompletes ul li a {
 	display: block;
 	margin: 0 -14px;
 	padding: 10px 0 10px 30px;
-	font-size: 14px;
 	cursor: pointer;
 }
 
-.right-form .search .autocompletes ul li:hover a {
-	background-color:#F5F5F5;
-	color:#0071E3;
+header .search .autocompletes ul li:hover a {
+	background-color: var(--color-link-focus);
+	color: var(--color-link);
 }
 
-/* 로고 숨김처리 */
-.inner-item .logo a, .nav_link {
+header .clone-menu {
 	display: none;
 }
-.nav_link > a{
-	font-size:20px;
+
+/* 스타일을 한 번에 지정 애니메이션 */
+header .search input, header .search .search-icon, header .search .autocompletes,
+	header .search .autocompletes li {
+	transition: 0.7s;
+	transform: translate(100px, 0);
 }
 
-nav ul {
-    display: flex;
+header.searching ul.menu>li {
+	transform: scale(0.7);
+	opacity: 0;
 }
 
-nav ul li {
-    margin-right: 20px;
+header.searching .search-wrap {
+	visibility: visible;
+	opacity: 1;
+	transition-delay: 0.2s;
 }
 
-nav ul li a {
-    font-weight: bold;
+header.searching .search input, header.searching .search .search-icon,
+	header.searching .search .autocompletes, header.searching .search .autocompletes li
+	{
+	transition-delay: 0.2s;
+	transform: translate(0, 0);
 }
-
-.nav_link a {
-    text-decoration: none;
-    margin-left: 15px;
-}
-
 
 main {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px;
+	width: 100%;
+	height: 100%;
+	background-color: #f5f5f5;
+	padding: 100px 0;
+	display: flex;
+	gap: 40;
 }
 
 .content {
-    flex: 3;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
+	width: 1020px;
+	margin: 0 auto;
 }
 
 .content ul {
-    display: flex;
-    flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	row-gap: 40px;
 }
 
 .content ul li {
-    width: 30%;
-    margin: 10px;
-    background: #eaeaea;
-    height: 150px; /* 임시 크기 */
+	width: 30%;
+	background: white;
+	height: 250px;
+	border-radius: 15px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.content ul li:hover {
+	transform: scale(1.05); /* 5% 확대 */
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+}
 
 footer {
+	background-color: #333; /* 배경색 */
+	color: #fff; /* 텍스트 색상 */
+	padding: 40px 20px; /* 상하 여백 추가 */
+	text-align: center;
+}
+
+.footer_inner {
+	max-width: 1200px; /* 최대 너비 설정 */
+	margin: 0 auto; /* 가운데 정렬 */
 	display: flex;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 20px;
+	flex-direction: column; /* 세로 정렬 */
+	align-items: center; /* 가로 정렬 */
+	gap: 10px; /* 요소 간 간격 */
+}
+
+.footer_logo {
+	font-size: 24px; /* 로고 크기 */
+	font-weight: bold; /* 로고 강조 */
+	margin-bottom: 15px; /* 아래 여백 추가 */
+	color: #f5f5f5; /* 로고에 강조 색상 */
+}
+
+footer p {
+	font-size: 14px; /* 텍스트 크기 */
+	line-height: 1.8; /* 텍스트 간격 */
+	margin: 0; /* 기본 마진 제거 */
 }
