@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공고 등록</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #444;
+        margin: 20px 0;
+        font-size: 2rem;
+    }
+
+    form {
+        max-width: 600px;
+        margin: 20px auto;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form input[type="text"],
+    form select{
+        width: 95%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+    
+    form textarea {
+    	width: 95%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    	resize: vertical;
+    }
+
+    form input[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    form input[type="submit"]:hover {
+        background-color: #007bff;
+    }
+
+    form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+</style>
+</head>
+<body>
+<h1>공고 등록</h1>
+<form action="regist">
+    <label for="postNo">공고번호</label>
+    <input type="text" id="postNo" name="postNo">
+
+    <label for="comName">회사명</label>
+    <input type="text" id="comName" name="comName">
+
+    <label for="managerName">채용담당자</label>
+    <input type="text" id="managerName" name="managerName">
+
+    <label for="usersId">작성자</label>
+    <input type="text" id="usersId" name="usersId">
+
+    <label for="postExperience">경력</label>
+    <input type="text" id="postExperience" name="postExperience" placeholder="신입, 경력 1~3년">
+
+    <label for="workType">근무형태</label>
+    <select id="workType" name="workType">
+        <option>정규직</option>
+        <option>계약직</option>
+    </select>
+
+    <label for="postGradu">학력</label>
+    <select id="postGradu" name="postGradu">
+        <option>4년제 졸업</option>
+        <option>전문대학 졸업</option>
+        <option>고등학교 졸업</option>
+    </select>
+
+    <label for="title">제목</label>
+    <input type="text" id="title" name="title">
+
+    <label for="postDescription">내용</label>
+    <textarea id="postDescription" name="postDescription" style="height: 150px;"></textarea>
+
+    <label for="postTechStack">기술스택</label>
+    <input type="text" id="postTechStack" name="postTechStack">
+
+    <label for="location">근무지역</label>
+    <input type="text" id="location" name="location">
+
+    <label for="postSalary">연봉</label>
+    <input type="text" id="postSalary" name="postSalary" placeholder="숫자만 입력 (예: 3000)">
+
+    <label for="regdate">등록일</label>
+    <input type="text" id="regdate" name="regdate" readonly>
+
+    <label for="deadline">마감일</label>
+    <input type="text" id="deadline" name="deadline" placeholder="YYYY-MM-DD">
+
+    <label for="status">공고상태</label>
+    <select id="status" name="status">
+        <option>모집중</option>
+        <option>마감</option>
+    </select>
+
+    <input type="submit" value="등록하기">
+</form>
+<script>
+  window.onload = function() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    document.getElementById('regdate').value = `${year}-${month}-${day}`;
+  };
+</script>
+</body>
+</html>

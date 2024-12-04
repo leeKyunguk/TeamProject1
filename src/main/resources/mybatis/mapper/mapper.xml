@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.IJobPosting">
+    <insert id="reglist" parameterType="com.example.demo.dto.JobPosting">
+        INSERT INTO jobposting (
+            postNo, comNo, managerName, usersId, postExperience, workType, postGradu,
+            title, postDescription, postTechStack, location, postSalary,
+            regdate, deadline, status
+        ) VALUES (
+            null, #{comNo}, #{managerName}, #{usersId}, #{postExperience}, #{workType}, #{postGradu},
+            #{title}, #{postDescription}, #{postTechStack}, #{location}, #{postSalary},
+            #{regdate}, #{deadline}, #{status}
+        )
+    </insert>
+    <select id="getList" resultType="com.example.demo.dto.JobPosting">
+		SELECT j.postNo, j.title, c.comname, j.location, j.status, j.deadline FROM jobposting j JOIN company c ON j.comNo=c.comNo ORDER BY j.postNo DESC;
+   </select>
+   <select id="getJobPostingByPostNo" resultType="com.example.demo.dto.JobPosting">
+        SELECT jp.postNo, c.comName, jp.usersId, jp.managerName, jp.postExperience, jp.workType, jp.postGradu, 
+               jp.title, jp.postDescription, jp.postTechStack, jp.location, jp.postSalary, jp.regdate, 
+               jp.deadline, jp.status
+        FROM JobPosting jp
+        JOIN Company c ON jp.comNo = c.comNo
+        WHERE jp.postNo = #{postNo}
+    </select>
+    <update id="updateJobPosting" parameterType="com.example.demo.dto.JobPosting">
+        UPDATE jobposting
+        SET
+            comNo = #{comNo},
+            managerName = #{managerName},
+            usersId = #{usersId},
+            postExperience = #{postExperience},
+            workType = #{workType},
+            postGradu = #{postGradu},
+            title = #{title},
+            postDescription = #{postDescription},
+            postTechStack = #{postTechStack},
+            location = #{location},
+            postSalary = #{postSalary},
+            regdate = #{regdate},
+            deadline = #{deadline},
+            status = #{status}
+        WHERE postNo = #{postNo}
+    </update>
+
+    <delete id="deleteJobPosting" parameterType="int">
+        DELETE FROM jobposting WHERE postNo = #{postNo}
+    </delete>
+</mapper>
