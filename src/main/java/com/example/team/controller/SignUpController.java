@@ -1,9 +1,9 @@
-package com.example.demo.controller;
+package com.example.team.controller;
 
-import com.example.demo.dto.Users;
-import com.example.demo.dto.UserProfiles;
-import com.example.demo.dto.Company;
-import com.example.demo.service.SignUpService;
+import com.example.team.dto.Company;
+import com.example.team.dto.UserProfiles;
+import com.example.team.dto.Users;
+import com.example.team.service.SignUpService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,14 +21,13 @@ public class SignUpController {
 
     // 메인 페이지 요청
     @GetMapping("/")
-    public String mainPage() {
-        return "main";  // main.html 페이지 반환
+    public String root() {
+    	return "index1";
     }
-
     // 회원가입 페이지 요청
-    @GetMapping("/signup")
+    @GetMapping("/signUp")
     public String signupPage() {
-        return "signup";  // signup.html 페이지 반환
+        return "signUp";  // signup.html 페이지 반환
     }
 
     // 구직자 회원가입 폼 페이지 요청

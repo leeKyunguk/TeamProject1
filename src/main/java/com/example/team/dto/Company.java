@@ -1,12 +1,12 @@
-package com.example.demo.dto;
+package com.example.team.dto;
 
 
 import lombok.Data;
 
 @Data
-public class UserProfiles {
+public class Company {
 	
-	 // 사용자 ID
+	// 사용자 ID(외래키)
     private String usersId;
 
     // 비밀번호
@@ -38,39 +38,35 @@ public class UserProfiles {
     // 주소 (기업은 기업 주소)
     private String address;
 	
-    // 회원번호
-    private int userNo;
-    
-    // 구직자 이름
-    private String userName;
-
-    // 별칭 (Unique)
-    private String nickname;
-
-    // 주민번호
-    private String resiNumber;
+	// 기업 번호
+    private int comNo;
 
     
-    public enum Gender {
-        M,  // 남성
-        F; // 여성
-       
-        @Override
-        public String toString() {
-            return name(); // "MALE" 또는 "FEMALE" 반환
-        }
-    }
     
-    private Gender gender;  // Gender 타입으로 필드 선언
+    // 기업 이름
+    private String comName;
 
-    // 기술 스택
-    private String techStack;
+    // 사업자 등록 번호
+    private String businessNo;
 
-    // 희망 연봉
-    private int uSalary;
+    // 대표자명
+    private String ceoName;
 
-    // 구직자 연락처
-    private String phone;
-	
-	
+    // 기업 형태
+    private String comType;
+
+    // 업종
+    private String comSector;
+
+    // 사원 수
+    private int employeeCount;
+
+    // 매출액
+    private Long sales;
+
+    // 기업 연락처
+    private String tel;
+    
+    //기업 상세설명
+    private String comDescription;
 }

@@ -1,9 +1,9 @@
-package com.example.demo.service;
+package com.example.team.service;
 
-import com.example.demo.dto.UserProfiles;
-import com.example.demo.dto.Users;
-import com.example.demo.dto.Company;
-import com.example.demo.dao.SignUpDao;
+import com.example.team.dao.SignUpDao;
+import com.example.team.dto.Company;
+import com.example.team.dto.UserProfiles;
+import com.example.team.dto.Users;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
