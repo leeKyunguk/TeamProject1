@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공고 수정</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #444;
+        margin: 20px 0;
+        font-size: 2rem;
+    }
+
+    form {
+        max-width: 600px;
+        margin: 20px auto;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form input[type="text"],
+    form select {
+        width: 95%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    form textarea {
+        width: 95%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        resize: vertical;
+    }
+
+    form input[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    form input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    form hr {
+        margin: 20px 0;
+        border: none;
+        border-top: 1px solid #ddd;
+    }
+
+    form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* 각 폼 구분을 위해 추가된 스타일 */
+    .form-action {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .form-action input {
+        width: calc(50% - 5px);
+    }
+
+    /* 두 개의 폼을 구분하기 위한 스타일 */
+    .form-action button {
+        width: calc(50% - 5px);
+    }
+
+    /* 삭제 폼 구분 */
+    .delete-form {
+        border-top: 2px solid #ff6347; /* 빨간색 경계선 추가 */
+        margin-top: 30px; /* 두 폼 간 간격 추가 */
+    }
+
+    .delete-form input[type="submit"] {
+        background-color: #dc3545; /* 삭제 버튼 빨간색 */
+    }
+
+    .delete-form input[type="submit"]:hover {
+        background-color: #c82333;
+    }
+</style>
+</head>
+<body>
+<h1>공고 수정</h1>
+
+<form action="/update" method="post">
+    <label for="title">제목</label>
+    <input type="text" id="title" th:value="${jobPosting.title}" name="title">
+
+    <input type="hidden" th:value="${jobPosting.postNo}" name="postNo">
+
+    <label for="comName">회사명</label>
+    <input type="text" id="comName" th:value="${jobPosting.comName}" name="comName">
+
+    <label for="managerName">채용담당자</label>
+    <input type="text" id="managerName" th:value="${jobPosting.managerName}" name="managerName">
+
+    <label for="usersId">ID</label>
+    <input type="text" id="usersId" th:value="${jobPosting.usersId}" name="usersId">
+
+    <label for="postExperience">경력</label>
+    <input type="text" id="postExperience" th:value="${jobPosting.postExperience}" name="postExperience">
+
+    <label for="workType">근무형태</label>
+    <input type="text" id="workType" th:value="${jobPosting.workType}" name="workType">
+
+    <label for="postGradu">학력</label>
+    <select id="postGradu" name="postGradu" th:value="${jobPosting.postGradu}">
+        <option>4년제 졸업</option>
+        <option>전문대학 졸업</option>
+        <option>고등학교 졸업</option>
+    </select>
+
+    <label for="postDescription">내용</label>
+    <textarea id="postDescription" th:text="${jobPosting.postDescription}" name="postDescription" style="height: 150px;"></textarea>
+
+    <label for="postTechStack">요구기술스택</label>
+    <input type="text" id="postTechStack" th:value="${jobPosting.postTechStack}" name="postTechStack">
+
+    <label for="location">근무지역</label>
+    <input type="text" id="location" th:value="${jobPosting.location}" name="location">
+
+    <label for="postSalary">연봉 (만원)</label>
+    <input type="text" id="postSalary" th:value="${jobPosting.postSalary}" name="postSalary">
+
+    <label for="regdate">등록일</label>
+    <input type="text" id="regdate" th:value="${jobPosting.regdate}" name="regdate">
+
+    <label for="deadline">마감일</label>
+    <input type="text" id="deadline" th:value="${jobPosting.deadline}" name="deadline">
+
+    <label for="status">공고상태</label>
+    <select id="status" name="status" th:value="${jobPosting.status}">
+        <option>모집중</option>
+        <option>마감</option>
+    </select>
+
+    <div class="form-action">
+        <input type="submit" value="수정" onclick="update()">
+    </div>
+</form>
+
+<form action="/delete" method="post" class="delete-form" onsubmit="return del()">
+    <input type="hidden" th:value="${jobPosting.postNo}" name="postNo">
+    <div class="form-action">
+        <input type="submit" value="삭제">
+    </div>
+</form>
+
+<script>
+	function update(){
+		alert("수정되었습니다.");
+	}
+    function del() {
+        return confirm("정말로 삭제하시겠습니까?");
+    }
+</script>
+</body>
+</html>
