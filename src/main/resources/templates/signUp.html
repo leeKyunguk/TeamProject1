@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 선택</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h1>회원가입 선택</h1>
+
+    <!-- 구직자용 회원가입 버튼 -->
+    <button id="jobSeekerBtn">구직자 회원가입</button>
+
+    <!-- 기업용 회원가입 버튼 -->
+    <button id="companyBtn">기업 회원가입</button>
+
+    <hr>
+
+    <!-- 폼이 로드될 위치 -->
+    <div id="formContainer">
+        <!-- 구직자 또는 기업용 폼이 이곳에 동적으로 로드됩니다. -->
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // 구직자용 버튼 클릭 시
+            $('#jobSeekerBtn').click(function() {
+                $('#formContainer').load('/jobSeekerForm'); // 구직자 폼을 동적으로 로드
+            });
+
+            // 기업용 버튼 클릭 시
+            $('#companyBtn').click(function() {
+                $('#formContainer').load('/companyForm'); // 기업 폼을 동적으로 로드
+            });
+        });
+    </script>
+
+</body>
+</html>

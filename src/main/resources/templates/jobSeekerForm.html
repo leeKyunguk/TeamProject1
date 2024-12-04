@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<h2>회원가입</h2>
+
+<form id="jobSeekerForm" th:action="@{/registerJobSeeker}" th:object="${userProfiles}" method="post">
+    <label for="usersId">사용자 ID:</label>
+    <input type="text" id="usersId" th:field="*{usersId}" required><br>
+    
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" th:field="*{password}" required><br>
+
+    <label for="email">이메일:</label>
+    <input type="email" id="email" th:field="*{email}" required><br>
+
+    <label for="address">주소:</label>
+    <input type="text" id="address" th:field="*{address}" required><br>
+
+    <label for="userName">이름:</label>
+    <input type="text" id="userName" th:field="*{userName}" required><br>
+
+    <label for="nickname">별칭:</label>
+    <input type="text" id="nickname" th:field="*{nickname}" required><br>
+
+    <label for="resiNumber">주민번호:</label>
+    <input type="text" id="resiNumber" th:field="*{resiNumber}" required><br>
+
+    <label for="gender">성별:</label>
+    <select id="gender" th:field="*{gender}" required>
+        <option value="M">남성</option>
+        <option value="F">여성</option>
+    </select><br>
+
+    <label for="techStack">기술 스택:</label>
+    <input type="text" id="techStack" th:field="*{techStack}" required><br>
+
+    <label for="uSalary">희망 연봉:</label>
+    <input type="number" id="uSalary" th:field="*{uSalary}" required><br>
+
+    <label for="phone">연락처:</label>
+    <input type="tel" id="phone" th:field="*{phone}" required><br>
+
+    <button type="button" onclick="checkDuplicates()">중복 확인</button>
+    <button type="submit" id="submitButton" disabled>회원가입</button>
+</form>
+
+<script>
+    function checkDuplicates() {
+        const formData = {
+            usersId: document.getElementById("usersId").value,
+            email: document.getElementById("email").value,
+            nickname: document.getElementById("nickname").value,
+            resiNumber: document.getElementById("resiNumber").value,
+            phone: document.getElementById("phone").value
+        };
+
+        axios.post("/checkDuplicates", formData)
+            .then(response => {
+                if (response.data.isDuplicate) {
+                    alert(response.data.message);
+                    document.getElementById("submitButton").disabled = true;
+                } else {
+                    alert("중복된 데이터가 없습니다.");
+                    document.getElementById("submitButton").disabled = false;
+                }
+            })
+            .catch(error => {
+                alert("중복 확인 중 문제가 발생했습니다. 다시 시도해주세요.");
+                console.error(error);
+            });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.IUsersDAO">
+	<select id="userLogin" resultType="com.example.demo.dto.Users">
+		SELECT * from Users where usersId = #{usersId} and password = #{password}
+	</select>
+	<select id="userInfoLoad" resultType="com.example.demo.dto.UserProfiles">
+		SELECT * from Users u inner join UserProfiles up on u.usersId = up.usersId where u.usersId = #{usersId}
+	</select>
+	<select id="comInfoLoad" resultType="com.example.demo.dto.Company">
+		SELECT * from Users u inner join Company c on u.usersId = c.usersId where u.usersId = #{usersId}
+	</select>
+ <insert id="updateUserProfile">
+    UPDATE Users u
+    JOIN UserProfiles as up ON u.usersId = up.usersId
+    SET u.password = #{password},
+    up.userName = #{userName}, 
+    up.nickname = #{nickname}, 
+    up.resiNumber = #{resiNumber}, 
+    up.phone = #{phone},
+    u.email = #{email},
+    u.address = #{address},
+    up.gender = #{gender},
+    up.techStack = #{techStack},
+    up.uSalary = #{uSalary}
+    WHERE u.usersId = #{usersId};
+</insert>
+<insert id="updateCompany">
+	UPDATE Users u
+	JOIN Company c
+	ON u.usersId = c.usersID
+	SET u.password = #{password},
+    c.comName = #{comName},
+    c.ceoName = #{ceoName},
+	c.tel = #{tel},
+    u.email = #{email},
+    u.address = #{address},
+    c.comType = #{comType},
+    c.employeeCount = #{employeeCount},
+    c.sales = #{sales}
+	WHERE u.usersId = #{usersId};
+</insert>
+</mapper>
