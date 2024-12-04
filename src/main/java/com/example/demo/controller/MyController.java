@@ -12,9 +12,8 @@ import com.example.demo.dao.IUsersDAO;
 import com.example.demo.dto.Admin;
 import com.example.demo.dto.Company;
 import com.example.demo.dto.UserProfiles;
-import com.example.demo.dto.UserProfiles.Gender;
 import com.example.demo.dto.Users;
-import com.example.demo.dto.Users.Role;
+import com.example.demo.dto.Company.Role;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -27,16 +26,17 @@ public class MyController {
 	@Autowired
 	private IAdminDAO iadmindao;
 	
+	/*
 	@RequestMapping("/")
 	public String root(HttpSession session, Model model) {
 	    Role role = (Role) session.getAttribute("role");
 	    if (role != null) {
-	    	if (role == Role.구직자) {
+	    	if (role.equals("구직자")) {
 	    		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
 	    		if (userProfiles != null) {
 	    			model.addAttribute("userProfiles", userProfiles);
 	    		}
-	    	} else if (role == Role.기업) {
+	    	} else if (role.equals("기업")) {
 	    		Company company = (Company) session.getAttribute("company");
 	    		if (company != null) {
 	    			model.addAttribute("company", company);
@@ -45,6 +45,7 @@ public class MyController {
 	    }
 	    return "/index";
 	}
+	*/
 	
 	@RequestMapping("/admin")
 	public String adminpage() {
@@ -57,11 +58,11 @@ public class MyController {
 		if (result != null) {
 	        HttpSession session = request.getSession();
 	        session.setAttribute("role", result.getRole());
-	        if (result.getRole() == Role.구직자) {
+	        if (result.getRole().equals("구직자")) {
 	            UserProfiles userProfiles = iusersdao.userInfoLoad(usersId);
 	            session.setAttribute("userProfiles", userProfiles);
 	            model.addAttribute("userProfiles", userProfiles);
-	        } else if (result.getRole() == Role.기업) {
+	        } else if (result.getRole().equals("기업")) {
 	            Company company = iusersdao.comInfoLoad(usersId);
 	            session.setAttribute("company", company);
 	            model.addAttribute("company", company);
@@ -102,13 +103,13 @@ public class MyController {
 	public String userDetail(HttpSession session, Model model) {
 		Role role = (Role) session.getAttribute("role");
 		if (role != null) {
-	        if (role == Role.구직자) {
+	        if (role.equals("구직자")) {
 	            UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
 	            if (userProfiles != null) {
 	                model.addAttribute("userProfiles", userProfiles);
 	        	    return "userDetail";
 	            }
-	        } else if (role == Role.기업) {
+	        } else if (role.equals("기업")) {
 	            Company company = (Company) session.getAttribute("company");
 	            if (company != null) {
 	                model.addAttribute("company", company);
@@ -125,13 +126,13 @@ public class MyController {
 	public String modify(HttpSession session, Model model) {
 		Role role = (Role) session.getAttribute("role");
 		if (role != null) {
-	        if (role == Role.구직자) {
+	        if (role.equals("구직자")) {
 	            UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
 	            if (userProfiles != null) {
 	                model.addAttribute("userProfiles", userProfiles);
 	        	    return "modifyUser";
 	            }
-	        } else if (role == Role.기업) {
+	        } else if (role.equals("기업")) {
 	            Company company = (Company) session.getAttribute("company");
 	            if (company != null) {
 	                model.addAttribute("company", company);

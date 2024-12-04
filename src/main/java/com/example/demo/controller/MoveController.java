@@ -26,10 +26,6 @@ public class MoveController {
 	@Autowired
 	ICompany ic;
 	
-	@RequestMapping("/")
-	public String main() {
-		return "main";
-	}
 	@RequestMapping("/reglist")
 	public String reglist(HttpSession session, Model model) {
 		String comName = (String) session.getAttribute("comName");

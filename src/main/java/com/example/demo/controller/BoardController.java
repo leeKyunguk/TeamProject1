@@ -17,12 +17,6 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    // 메인 페이지
-    @GetMapping("/")
-    public String root() {
-        return "main"; // main.html
-    }
-
     // 게시글 목록 페이지
     @GetMapping("/list")
     public String getBoardList(

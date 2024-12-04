@@ -1,11 +1,11 @@
-package com.example.team.dao;
+package com.example.demo.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.team.dto.Company;
-import com.example.team.dto.UserProfiles;
-import com.example.team.dto.Users;
+import com.example.demo.dto.Company;
+import com.example.demo.dto.UserProfiles;
+import com.example.demo.dto.Users;
 
 @Mapper
 public interface SignUpDao {

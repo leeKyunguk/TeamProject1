@@ -1,9 +1,9 @@
-package com.example.team.controller;
+package com.example.demo.controller;
 
-import com.example.team.dto.Company;
-import com.example.team.dto.UserProfiles;
-import com.example.team.dto.Users;
-import com.example.team.service.SignUpService;
+import com.example.demo.service.SignUpService;
+import com.example.demo.dto.Company;
+import com.example.demo.dto.UserProfiles;
+import com.example.demo.dto.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -18,8 +18,18 @@ public class Company {
     private String password;
     private String email;
     public enum Role {
-        기업
+        COMPANY;
+        @Override
+        public String toString() {
+            switch (this) {
+                case COMPANY:
+                    return "기업";
+                default:
+                    return super.toString();
+            }
+        }
     }
     private Role role;
     private String address;
+    private String comDescription;
 }
