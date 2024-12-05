@@ -49,4 +49,36 @@
     <delete id="deleteJobPosting" parameterType="int">
         DELETE FROM jobposting WHERE postNo = #{postNo}
     </delete>
+    <insert id="uscBookmark" parameterType="com.example.demo.dto.UscBookMark">
+    	INSERT INTO usersubscribecom VALUES (NULL, 'Y', #{userNo}, #{comNo})
+    </insert>
+    <insert id="csuBookmark" parameterType="com.example.demo.dto.CsuBookMark">
+    	INSERT INTO comsubscribeuser VALUES (NULL, 'Y', #{userNo}, #{comNo})
+    </insert>
+    <insert id="userScrap" parameterType="com.example.demo.dto.UserScrap">
+    	INSERT INTO userscrap VALUES (NULL, 'Y', #{userNo}, #{postNo})
+    </insert>
+    <select id="seluscBookMark" resultType="com.example.demo.dto.UscBookMark">
+    	SELECT u_s_c_No, ucSubscribed, u.userNo, c.comNo FROM usersubscribecom usc
+    	JOIN users u ON usc.userNO = u.userNo
+    	JOIN company c ON usc.comNo = c.comNo
+    	WHERE u.userNo = #{userNo}
+    </select>
+    <select id="selcsuBookMark" resultType="com.example.demo.dto.CsuBookMark">
+    	SELECT c_s_u_No, cuSubscribed, u.userNo, c.comNo FROM cuSubscribed csu
+    	JOIN users u ON csu.userNo = u.userNo
+    	JOIN company c ON csu.comNo = c.comNo
+    	WHERE u.userNo = #{userNo}
+    </select>
+    <select id="seluserScrap" resultType="com.example.demo.dto.UserScrap">
+    	SELECT scrapNo, uScraped, u.userNo, p.postNo FROM userscrap sc
+    	JOIN user u ON sc.userNo = u.userNo
+    	JOIN post p ON sc.postNo = p.postNo
+    	WHERE sc.userNo = #{userNo}
+    </select>
+    <select id="getComNameByComNo" resultType="String">
+  		SELECT comName 
+  		FROM company 
+		WHERE comNo = #{comNo}
+</select>
 </mapper>

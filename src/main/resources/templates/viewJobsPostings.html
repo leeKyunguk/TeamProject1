@@ -57,7 +57,6 @@
         text-decoration: underline;
     }
 
-    /* 채용공고 작성 버튼 스타일 */
     form {
         margin: 10px 195px;
         text-align: right;
@@ -81,15 +80,30 @@
     input[type="submit"]:focus {
         outline: none;
     }
+    .star{
+    	font-size: 24px;
+    	color: #000000;
+	    border: 1px solid black;
+    	cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .star.active {
+        color: gold;
+    }
 </style>
 </head>
 <body>
 <h1>채용공고 리스트</h1>
-
+<p th:if="${session.userProfiles?.usersId != null or session.company?.usersId != null}">
+		<span th:if="${userProfiles != null}" th:text="${session.userProfiles.userName} + ' 님 환영합니다.'"></span>
+    	<span th:if="${company != null}" th:text="${session.company.comName} + ' 기업 담당자님 환영합니다.'"></span>
+	</p>
+<div th:if="${company != null}">
 <form action="reglist">
     <input type="submit" value="채용공고 작성">
 </form>
-
+</div>
 <table>
     <thead>
         <tr>
@@ -99,6 +113,7 @@
             <th>위치</th>
             <th>상태</th>
             <th>마감일</th>
+            <th>비고</th>
         </tr>
     </thead>
     <tbody>
@@ -109,8 +124,38 @@
             <td>[[${list.location}]]</td>
             <td>[[${list.status}]]</td>
             <td>[[${list.deadline}]]</td>
+            <td>
+	            <button type="button" class="star"
+	            th:if="session.userProfiles != null"
+	            onclick="bookmark(this, [[${list.comName}]])">★</button>
+			</td>
         </tr>
     </tbody>
 </table>
+<script>
+	function bookmark(button, comName){
+		button.classList.toggle('active');
+		const userProfiles = JSON.parse('${session.userProfiles != null ? session.userProfiles : "null"}');
+        if (!userProfiles) {
+            alert("로그인이 필요합니다.");
+            button.classList.toggle('active');
+            return;
+        }
+        
+		const xhr = new XMLHttpRequest();
+		xhr.open("POST","/bookMarkedCompany");
+		const postData = `comName=${encodeURIComponent(comName)}&userNo=${userProfiles.userNo}`;
+        xhr.send(postData);
+		xhr.onload = function() {
+			if (xhr.status >= 200 && xhr.status < 300) {
+                alert("북마크 되었습니다.");
+            } else {
+                alert("북마크에 실패하였습니다.");
+                button.classList.toggle('active');
+            }
+        };
+		
+	}
+</script>
 </body>
 </html>

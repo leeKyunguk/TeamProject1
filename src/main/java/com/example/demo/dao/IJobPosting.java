@@ -9,10 +9,13 @@ import com.example.demo.dto.JobPosting;
 
 @Mapper
 public interface IJobPosting {
-	public List<JobPosting> getList(); // 전체 조회
-	public void reglist(JobPosting jobposting); // 등록하기
-	public void dellist(int postNo); // 삭제하기
+	public List<JobPosting> getList();
+	public void reglist(JobPosting jobposting);
+	public void dellist(int postNo);
 	public JobPosting getJobPostingByPostNo(int postNo);
-	public void updateJobPosting(JobPosting jobPosting); // 공고 수정
-    public void deleteJobPosting(int postNo);           // 공고 삭제
+	public void updateJobPosting(JobPosting jobPosting);
+    public void deleteJobPosting(int postNo);           
+	public boolean isBookmarked(String comName, int userNo);
+	public void deleteBookmark(String comName, int userNo);
+	public void addBookmark(String comName, int userNo);
 }

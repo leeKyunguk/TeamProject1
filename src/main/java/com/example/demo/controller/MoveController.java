@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dao.ICompany;
 import com.example.demo.dao.IJobPosting;
@@ -163,5 +164,22 @@ public class MoveController {
         ijp.deleteJobPosting(postNo);
         return "redirect:/viewlist";
     }
+    
+    @RequestMapping("/bookMarkedCompany")
+    public @ResponseBody String bookMarkedCompany(@RequestParam("comName") String comName, @RequestParam("userNo") int userNo) {
+    	 try {
+    	        boolean isBookmarked = ijp.isBookmarked(comName, userNo);
 
+    	        if (isBookmarked) {
+    	            ijp.deleteBookmark(comName, userNo);
+    	            return "북마크가 취소되었습니다.";
+    	        } else {
+    	            ijp.addBookmark(comName, userNo);
+    	            return "북마크 되었습니다.";
+    	        }
+    	    } catch (Exception e) {
+    	        e.printStackTrace();
+    	        return "북마크 처리 중 오류가 발생했습니다.";
+    	    }
+    }
 }
