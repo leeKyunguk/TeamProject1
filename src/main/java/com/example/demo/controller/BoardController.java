@@ -18,18 +18,18 @@ public class BoardController {
     }
 
     // 게시글 목록 페이지
-    @GetMapping("/list")
+    @GetMapping("/communityPosts")
     public String getBoardList(
-        @RequestParam(defaultValue = "1") Integer page, // 현재 페이지
-        @RequestParam(defaultValue = "10") Integer size, // 페이지 당 게시글 수
+        //@RequestParam(defaultValue = "1") Integer page, // 현재 페이지
+        //@RequestParam(defaultValue = "10") Integer size, // 페이지 당 게시글 수
         Model model
     ) {
-        int totalItems = boardService.getBoardCount(); // 전체 게시글 수
-        Pagination pagination = new Pagination(page, size, totalItems); // 페이지네이션 계산
+        //int totalItems = boardService.getBoardCount(); // 전체 게시글 수
+        //Pagination pagination = new Pagination(page, size, totalItems); // 페이지네이션 계산
 
-        model.addAttribute("boardList", boardService.getBoardList(pagination.getCurrentPage(), pagination.getPageSize()));
-        model.addAttribute("currentPage", pagination.getCurrentPage());
-        model.addAttribute("totalPages", pagination.getTotalPages());
+        model.addAttribute("boardList", boardService.getBoardList(/*pagination.getCurrentPage(), pagination.getPageSize()*/));
+        //model.addAttribute("currentPage", pagination.getCurrentPage());
+        //model.addAttribute("totalPages", pagination.getTotalPages());
         return "communityPosts"; // communityPosts.html
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 public interface BoardDao {
 
     // 게시글 목록 조회 (페이지네이션)
-    List<Board> getBoardList(@Param("offset") int offset, @Param("limit") int limit);
+    //List<Board> getBoardList(@Param("offset") int offset, @Param("limit") int limit);
 
     // 게시글 상세 조회
     Board getBoardDetail(@Param("boardNo") int boardNo);
