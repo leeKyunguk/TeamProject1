@@ -11,7 +11,7 @@ import java.util.List;
 public interface BoardDao {
 
     // 게시글 목록 조회 (페이지네이션)
-    //List<Board> getBoardList(@Param("offset") int offset, @Param("limit") int limit);
+    List<Board> getBoardList(/*@Param("offset") int offset, @Param("limit") int limit*/);
 
     // 게시글 상세 조회
     Board getBoardDetail(@Param("boardNo") int boardNo);
@@ -20,10 +20,16 @@ public interface BoardDao {
     List<Comment> getCommentsByBoardNo(@Param("boardNo") int boardNo);
 
     // 게시글 등록
-    void insertBoard(@Param("board") Board board);
+    void insertBoard(@Param("userNo") int userNo, 
+                     @Param("comNo") int comNo, 
+                     @Param("boardTitle") String boardTitle, 
+                     @Param("boardContent") String boardContent);
 
     // 댓글 등록
-    void insertComment(@Param("comment") Comment comment);
+    void insertComment(@Param("boardNo") int boardNo, 
+                       @Param("userNo") int userNo, 
+                       @Param("comNo") int comNo,  
+                       @Param("commentContent") String commentContent);
 
     // 게시글 삭제
     void deleteBoard(@Param("boardNo") int boardNo);
@@ -34,4 +40,3 @@ public interface BoardDao {
     // 게시글 총 개수 조회
     int getBoardCount();
 }
-

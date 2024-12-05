@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.dao.BoardDao;
 import com.example.demo.dto.Board;
 import com.example.demo.dto.Comment;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,15 +12,16 @@ import java.util.List;
 @Service
 public class BoardService {
 
-    private final BoardDao boardDao;
+	@Autowired
+	BoardDao boardDao;
 
     public BoardService(BoardDao boardDao) {
         this.boardDao = boardDao;
     }
 
-    public List<Board> getBoardList(int currentPage, int pageSize) {
-        int offset = (currentPage - 1) * pageSize;
-        return boardDao.getBoardList(offset, pageSize);
+    public List<Board> getBoardList(/*int currentPage, int pageSize*/) {
+        //int offset = (currentPage - 1) * pageSize;
+        return boardDao.getBoardList(/*offset, pageSize*/);
     }
 
     public Board getBoardDetail(int boardNo) {
@@ -34,11 +37,21 @@ public class BoardService {
     }
 
     public void insertBoard(Board board) {
-        boardDao.insertBoard(board);
+        boardDao.insertBoard(
+            board.getUserNo(),
+            board.getComNo(),
+            board.getBoardTitle(),
+            board.getBoardContent()
+        );
     }
 
     public void insertComment(Comment comment) {
-        boardDao.insertComment(comment);
+        boardDao.insertComment(
+            comment.getBoardNo(),
+            comment.getUserNo(),
+            comment.getComNo(),
+            comment.getComment()
+        );
     }
 
     public void deleteBoard(int boardNo) {
@@ -49,4 +62,5 @@ public class BoardService {
         boardDao.deleteComment(commentNo);
     }
 }
+
 

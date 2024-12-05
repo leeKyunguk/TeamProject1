@@ -74,10 +74,10 @@ public class MyController {
 	            model.addAttribute("company", company);
 	        }
 	        model.addAttribute("loginSuccess", "로그인 성공");
-	        return "index";
+	        return "index1";
 	    } else {
 	        model.addAttribute("loginFail", "아이디 또는 비밀번호가 잘못되었습니다.");
-	        return "index";
+	        return "index1";
 	    }
 	}
 	
@@ -89,7 +89,7 @@ public class MyController {
 			session.setAttribute("admin", result);
 			String msg = "";
 			model.addAttribute("loginSuccess", msg);
-			return "index";
+			return "index1";
 		} else {
 			String msg = "";
 			model.addAttribute("loginFail", msg);
@@ -102,53 +102,40 @@ public class MyController {
 		session.invalidate();
 		String msg= "";
 		model.addAttribute("logoutmsg", msg);
-		return "index";
+		return "index1";
 	}
 	
 	@RequestMapping("/userDetail")
 	public String userDetail(HttpSession session, Model model) {
-		Role role = (Role) session.getAttribute("role");
-		if (role != null) {
-			if (role == Role.JOB_SEEKER) {
-	            UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
-	            if (userProfiles != null) {
-	                model.addAttribute("userProfiles", userProfiles);
-	        	    return "userDetail";
-	            }
-	        } else if (role == Role.COMPANY) {
-	            Company company = (Company) session.getAttribute("company");
-	            if (company != null) {
-	                model.addAttribute("company", company);
-	        	    return "companyDetail";
-	            }
-	        }
-	    } else {
-	        return "redirect:/login";
+		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
+		Company company = (Company) session.getAttribute("company");
+	    // 유저 프로필이 존재하는 경우
+		if (userProfiles != null && Role.valueOf(userProfiles.getRole().toString()) == Role.JOB_SEEKER) {
+	        model.addAttribute("userProfiles", userProfiles);
+	        return "userDetail"; // 구직자 상세 페이지로 이동
 	    }
-		return "/";
-	}
+	    // 회사 정보가 존재하는 경우
+	    if (company != null && company.getRole() == Role.COMPANY) {
+	        model.addAttribute("company", company);
+	        return "companyDetail"; // 기업 상세 페이지로 이동
+	    } else {
+	           return "redirect:/login";
+	       }
+	   }
 	
 	@RequestMapping("/modify")
 	public String modify(HttpSession session, Model model) {
-		Role role = (Role) session.getAttribute("role");
-		if (role != null) {
-	        if (role == Role.JOB_SEEKER) {
-	            UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
-	            if (userProfiles != null) {
-	                model.addAttribute("userProfiles", userProfiles);
-	        	    return "modifyUser";
-	            }
-	        } else if (role == Role.COMPANY) {
-	            Company company = (Company) session.getAttribute("company");
-	            if (company != null) {
-	                model.addAttribute("company", company);
-	        	    return "modifyCompany";
-	            }
-	        }
-	    } else {
-	        return "redirect:/login";
-	    }
-		return "/";
+		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
+		Company company = (Company) session.getAttribute("company");
+		if (userProfiles != null && Role.valueOf(userProfiles.getRole().toString()) == Role.JOB_SEEKER) {
+			model.addAttribute("userProfiles", userProfiles);
+			return "modifyUser";
+		} else if (company != null && company.getRole() == Role.COMPANY) {
+			model.addAttribute("company", company);
+			return "modifyCompany";
+		} else {
+			return "redirect:/login";
+		}
 	}
 	
 	@RequestMapping("/UserModify")

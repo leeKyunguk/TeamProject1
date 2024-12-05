@@ -78,12 +78,12 @@ public class MoveController {
 	}
 	private JobPosting.PostGradu convertPostGradu(String postGradu) {
 	    switch (postGradu) {
-	        case "고등학교 졸업":
-	            return JobPosting.PostGradu.H;
-	        case "전문대학 졸업":
-	            return JobPosting.PostGradu.C;
-	        case "4년제 졸업":
-	            return JobPosting.PostGradu.U;
+	        case "고등학교졸업":
+	            return JobPosting.PostGradu.고등학교졸업;
+	        case "전문대학졸":
+	            return JobPosting.PostGradu.전문대학졸;
+	        case "대졸":
+	            return JobPosting.PostGradu.대졸;
 	        default:
 	            throw new IllegalArgumentException("Unknown graduation level: " + postGradu);
 	    }
@@ -91,9 +91,9 @@ public class MoveController {
 	private JobPosting.Status convertStatus(String status) {
 	    switch (status) {
 	        case "모집중":
-	            return JobPosting.Status.OPEN;
+	            return JobPosting.Status.모집중;
 	        case "마감":
-	            return JobPosting.Status.CLOSE;
+	            return JobPosting.Status.마감;
 	        default:
 	            throw new IllegalArgumentException("Unknown graduation level: " + status);
 	    }

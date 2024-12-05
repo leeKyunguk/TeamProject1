@@ -21,7 +21,7 @@ public class SignUpService {
         user.setUsersId(userProfiles.getUsersId());
         user.setPassword(userProfiles.getPassword());
         user.setEmail(userProfiles.getEmail());
-        user.setRole("구직자");
+        user.setRole("JOB_SEEKER");
         user.setAddress(userProfiles.getAddress());
 
         int result = signUpDao.insertUsers(user);
@@ -37,7 +37,7 @@ public class SignUpService {
         user.setUsersId(company.getUsersId());
         user.setPassword(company.getPassword());
         user.setEmail(company.getEmail());
-        user.setRole("기업");
+        user.setRole("COMPANY");
         user.setAddress(company.getAddress());
 
         int result = signUpDao.insertUsers(user);
