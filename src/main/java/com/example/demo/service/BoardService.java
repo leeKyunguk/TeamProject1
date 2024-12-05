@@ -34,11 +34,23 @@ public class BoardService {
     }
 
     public void insertBoard(Board board) {
-        boardDao.insertBoard(board);
+        boardDao.insertBoard(
+            board.getUserNo(),
+            board.getComNo(),
+            board.getAdminName(),
+            board.getBoardTitle(),
+            board.getBoardContent()
+        );
     }
 
     public void insertComment(Comment comment) {
-        boardDao.insertComment(comment);
+        boardDao.insertComment(
+            comment.getBoardNo(),
+            comment.getUserNo(),
+            comment.getComNo(),
+            comment.getAdminName(),
+            comment.getCommentContent()
+        );
     }
 
     public void deleteBoard(int boardNo) {

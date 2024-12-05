@@ -17,9 +17,9 @@ public class UserProfiles {
         public String toString() {
             switch (this) {
                 case JOB_SEEKER:
-                    return "구직자";
+                    return "JOB_SEEKER";
                 case COMPANY:
-                    return "기업";
+                    return "COMPANY";
                 default:
                     return super.toString();
             }
@@ -43,4 +43,12 @@ public class UserProfiles {
     private String techStack;
     private int uSalary;
     private String phone;
+    
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

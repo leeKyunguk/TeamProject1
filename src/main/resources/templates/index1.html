@@ -5,6 +5,15 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/main.css">
 <script src="/js/index.js"></script>
+<script th:if="${loginSuccess != null}">
+	alert("로그인에 성공했습니다!");
+</script>
+<script th:if="${loginFail != null}">
+	alert("로그인에 실패했습니다...");
+</script>
+<script th:if="${logoutmsg != null}">
+	alert("로그아웃에 성공했습니다!");
+</script>
 </head>
 <body>
  <!-- HEADER -->
@@ -25,12 +34,24 @@
       <li class="search-starter">
         <a href="javascript:void(0)"></a>
       </li>
-      <li>
-        <a th:href="@{/login}">로그인</a>
-      </li>
-      <li>
-        <a th:href="@{/signUp}">회원가입</a>
-      </li>
+      <div th:if="${session.userProfiles?.usersId != null or session.company?.usersId != null}">
+		<span th:if="${session.userProfiles != null}" th:text="${session.userProfiles.userName} + '님 환영합니다.'"></span>
+    	<span th:if="${session.company != null}" th:text="${session.company.comName} + ' 기업 담당자님 환영합니다.'"></span>
+    	<a href="userDetail">마이페이지</a>
+	  </div>
+	  <div th:if="${session.userProfiles?.usersId == null and session.company?.usersId == null}">
+      	<li>
+	        <a th:href="@{/login}">로그인</a>
+      	</li>
+      	<li>
+        	<a th:href="@{/signUp}">회원가입</a>
+      	</li>
+      </div>
+      	<li>
+      		<form th:if="${session.userProfiles?.usersId != null or session.company?.usersId != null}" action="logout" method="post">
+				<input type="submit" value="로그아웃">
+			</form>
+		</li>
     </ul>
     <div class="search-wrap">
       <div class="search">
