@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dao.IAdminDAO;
+import com.example.demo.dao.IJobPosting;
 import com.example.demo.dao.IUsersDAO;
 import com.example.demo.dto.Admin;
 import com.example.demo.dto.Company;
+import com.example.demo.dto.JobPosting;
 import com.example.demo.dto.UserProfiles;
 import com.example.demo.dto.Users;
 import com.example.demo.dto.Company.Role;
@@ -25,18 +29,20 @@ public class MyController {
 	private IUsersDAO iusersdao;
 	@Autowired
 	private IAdminDAO iadmindao;
+	@Autowired
+	private IJobPosting ijobposting;
 	
 	/*
 	@RequestMapping("/")
 	public String root(HttpSession session, Model model) {
 	    Role role = (Role) session.getAttribute("role");
 	    if (role != null) {
-	    	if (role.equals("구직자")) {
+	    	if if (role == Role.JOB_SEEKER) {
 	    		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
 	    		if (userProfiles != null) {
 	    			model.addAttribute("userProfiles", userProfiles);
 	    		}
-	    	} else if (role.equals("기업")) {
+	    	} else if (role == Role.COMPANY) {
 	    		Company company = (Company) session.getAttribute("company");
 	    		if (company != null) {
 	    			model.addAttribute("company", company);
@@ -103,13 +109,13 @@ public class MyController {
 	public String userDetail(HttpSession session, Model model) {
 		Role role = (Role) session.getAttribute("role");
 		if (role != null) {
-	        if (role.equals("구직자")) {
+			if (role == Role.JOB_SEEKER) {
 	            UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
 	            if (userProfiles != null) {
 	                model.addAttribute("userProfiles", userProfiles);
 	        	    return "userDetail";
 	            }
-	        } else if (role.equals("기업")) {
+	        } else if (role == Role.COMPANY) {
 	            Company company = (Company) session.getAttribute("company");
 	            if (company != null) {
 	                model.addAttribute("company", company);
@@ -126,13 +132,13 @@ public class MyController {
 	public String modify(HttpSession session, Model model) {
 		Role role = (Role) session.getAttribute("role");
 		if (role != null) {
-	        if (role.equals("구직자")) {
+	        if (role == Role.JOB_SEEKER) {
 	            UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
 	            if (userProfiles != null) {
 	                model.addAttribute("userProfiles", userProfiles);
 	        	    return "modifyUser";
 	            }
-	        } else if (role.equals("기업")) {
+	        } else if (role == Role.COMPANY) {
 	            Company company = (Company) session.getAttribute("company");
 	            if (company != null) {
 	                model.addAttribute("company", company);
@@ -192,4 +198,23 @@ public class MyController {
         }
         return "/companyDetail";
 	}
+	
+	@RequestMapping("/myPostList")
+	public String mypostlist(HttpSession session, Model model) {
+		Role role = (Role) session.getAttribute("role");
+		String usersId = (String) session.getAttribute("usersId");
+	    if (role != null) {
+	    	if (role == Role.COMPANY) {
+	    		Company company = (Company) session.getAttribute("company");
+	    		if (company != null) {
+	    			model.addAttribute("company", company);
+	    			List<JobPosting> list = ijobposting.getJobPostingsByPostUsersId(usersId);
+	    			model.addAttribute("list", list);
+	    			return "myPostList";
+	    		}
+	    	}
+	    }
+		return "/login";
+	}
+	
 }

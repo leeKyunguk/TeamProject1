@@ -116,6 +116,7 @@ public class MoveController {
 	    System.out.println(jobPosting);
 	    return "detail";
 	}
+
 	
 	@RequestMapping("/update")
 	public String update(@RequestParam("postNo") int postNo,

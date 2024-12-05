@@ -15,4 +15,5 @@ public interface IJobPosting {
 	public JobPosting getJobPostingByPostNo(int postNo);
 	public void updateJobPosting(JobPosting jobPosting); // 공고 수정
     public void deleteJobPosting(int postNo);           // 공고 삭제
+    public List<JobPosting> getJobPostingsByPostUsersId(String usersid);
 }

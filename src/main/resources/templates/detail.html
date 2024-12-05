@@ -110,7 +110,74 @@
 <body>
 <h1>공고 수정</h1>
 
-<form action="/update" method="post">
+<div th:if="${session.company?.usersId != jobPosting.usersId && session.userProfiles?.usersId != jobPosting.usersId}">
+	<table>
+		<tbody>
+			<tr>
+				<td>제목</td>
+				<td th:text="${jobPosting.title}"></td>
+			</tr>
+			<tr>
+				<td>회사명</td>
+				<td th:text="${jobPosting.comName}"></td>
+			</tr>
+			<tr>
+				<td>채용담당자</td>
+				<td th:text="${jobPosting.managerName}"></td>
+			</tr>
+			<tr>
+				<td>경력</td>
+				<td th:text="${jobPosting.postExperience}"></td>
+			</tr>
+			<tr>
+				<td>근무형태</td>
+				<td th:text="${jobPosting.workType}"></td>
+			</tr>
+			<tr>
+				<td>학력</td>
+				<td th:text="${jobPosting.postGradu}"></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td th:text="${jobPosting.postDescription}"></td>
+			</tr>
+			<tr>
+				<td>요구기술스택</td>
+				<td th:text="${jobPosting.postTechStack}"></td>
+			</tr>
+			<tr>
+				<td>근무지역</td>
+				<td th:text="${jobPosting.location}"></td>
+			</tr>
+			<tr>
+				<td>연봉(만원)</td>
+				<td th:text="${jobPosting.postSalary}"></td>
+			</tr>
+			<tr>
+				<td>등록일</td>
+				<td th:text="${jobPosting.regdate}"></td>
+			</tr>
+			<tr>
+				<td>마감일</td>
+				<td th:text="${jobPosting.deadline}"></td>
+			</tr>
+			<tr>
+				<td>공고상태</td>
+				<td th:text="${jobPosting.status}"></td>
+			</tr>
+			<tr>
+				<td>지원여부</td>
+				<td th:text="${jobPosting.applicated}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+    <div th:if="${userProfiles != null}" class="form-action">
+        <input type="submit" value="지원하기">
+    </div>
+</div>
+
+<form th:if="${session.company?.usersId == jobPosting.usersId}" action="/update" method="post">
     <label for="title">제목</label>
     <input type="text" id="title" th:value="${jobPosting.title}" name="title">
 
@@ -162,15 +229,22 @@
         <option>마감</option>
     </select>
 
-    <div class="form-action">
+    <div th:if="${session.company?.usersId == jobPosting.usersId}" class="form-action">
         <input type="submit" value="수정" onclick="update()">
     </div>
 </form>
 
-<form action="/delete" method="post" class="delete-form" onsubmit="return del()">
+<form th:if="${session.company?.usersId == jobPosting.usersId}" action="/delete" method="post" class="delete-form" onsubmit="return del()">
     <input type="hidden" th:value="${jobPosting.postNo}" name="postNo">
     <div class="form-action">
         <input type="submit" value="삭제">
+    </div>
+</form>
+
+<form th:if="${session.company?.usersId == jobPosting.usersId}" action="/showApplicant" method="post" class="delete-form" onsubmit="return del()">
+    <input type="hidden" th:value="${jobPosting.postNo}" name="postNo">
+    <div class="form-action">
+        <input type="submit" value="지원자 현황">
     </div>
 </form>
 
