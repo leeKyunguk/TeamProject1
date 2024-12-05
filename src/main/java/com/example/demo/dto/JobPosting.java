@@ -8,34 +8,34 @@ import lombok.Data;
 public class JobPosting {
 	
 	public enum PostGradu {
-	    H {
+		고등학교졸업 {
 	        @Override
 	        public String toString() {
-	            return "고등학교 졸업";
+	            return "고등학교졸업";
 	        }
 	    },
-	    C {
+		전문대학졸 {
 	        @Override
 	        public String toString() {
-	            return "전문대학 졸업";
-	        }
+	            return "전문대학졸";
+	            }
 	    },
-	    U {
+		대졸 {
 	        @Override
 	        public String toString() {
-	            return "4년제 졸업";
+	            return "대졸";
 	        }
 	    }
 	}
 
 	public enum Status {
-	    OPEN {
+		모집중 {
 	        @Override
 	        public String toString() {
 	            return "모집중";
 	        }
 	    },
-	    CLOSE {
+		마감 {
 	        @Override
 	        public String toString() {
 	            return "마감";

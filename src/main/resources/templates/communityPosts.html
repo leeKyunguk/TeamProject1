@@ -34,7 +34,7 @@
     <!-- 게시글 등록 버튼 -->
     <a href="/form">게시글 등록</a>
 
-    <!-- 페이지네이션 -->
+    <!-- 페이지네이션 
     <div>
         <a th:if="${currentPage > 1}" th:href="@{/list(page=1)}">처음</a>
         <a th:if="${currentPage > 1}" th:href="@{/list(page=${currentPage - 1})}">이전</a>
@@ -45,6 +45,7 @@
         <a th:if="${currentPage < totalPages}" th:href="@{/list(page=${currentPage + 1})}">다음</a>
         <a th:if="${currentPage < totalPages}" th:href="@{/list(page=${totalPages})}">마지막</a>
     </div>
+    -->
 </body>
 </html>
 
