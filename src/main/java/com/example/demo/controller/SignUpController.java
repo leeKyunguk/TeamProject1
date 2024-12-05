@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.SignUpService;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.example.demo.dto.Company;
+import com.example.demo.dto.Company.Role;
 import com.example.demo.dto.UserProfiles;
 import com.example.demo.dto.Users;
 
@@ -20,10 +24,17 @@ public class SignUpController {
     private SignUpService signUpService;
 
     // 메인 페이지 요청
-    @GetMapping("/")
-    public String root() {
-    	return "index1";
-    }
+    @RequestMapping("/")
+	public String root(HttpSession session, Model model) {
+    	UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
+		Company company = (Company) session.getAttribute("company");
+		if (userProfiles != null && Role.valueOf(userProfiles.getRole().toString()) == Role.JOB_SEEKER) {
+			model.addAttribute("userProfiles", userProfiles);
+		} else if (company != null && company.getRole() == Role.COMPANY) {
+			model.addAttribute("company", company);
+	    }
+	    return "/index1";
+	}
     // 회원가입 페이지 요청
     @GetMapping("/signUp")
     public String signupPage() {
@@ -142,5 +153,10 @@ public class SignUpController {
     @GetMapping("/successPage")
     public String successPage() {
         return "success";  // success.html 페이지 반환
+    }
+    
+    @GetMapping("/index1")
+    public String indexPage() {
+        return "index1";  // index1.html 반환
     }
 }

@@ -18,7 +18,7 @@ public class BoardController {
     }
 
     // 게시글 목록 페이지
-    @GetMapping("/list")
+    @GetMapping("/communityPosts")
     public String getBoardList(
         @RequestParam(defaultValue = "1") Integer page, // 현재 페이지
         @RequestParam(defaultValue = "10") Integer size, // 페이지 당 게시글 수

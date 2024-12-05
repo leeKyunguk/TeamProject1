@@ -20,10 +20,18 @@ public interface BoardDao {
     List<Comment> getCommentsByBoardNo(@Param("boardNo") int boardNo);
 
     // 게시글 등록
-    void insertBoard(@Param("board") Board board);
+    void insertBoard(@Param("userNo") int userNo, 
+                     @Param("comNo") int comNo, 
+                     @Param("adminName") String adminName, 
+                     @Param("boardTitle") String boardTitle, 
+                     @Param("boardContent") String boardContent);
 
     // 댓글 등록
-    void insertComment(@Param("comment") Comment comment);
+    void insertComment(@Param("boardNo") int boardNo, 
+                       @Param("userNo") int userNo, 
+                       @Param("comNo") int comNo, 
+                       @Param("adminName") String adminName, 
+                       @Param("commentContent") String commentContent);
 
     // 게시글 삭제
     void deleteBoard(@Param("boardNo") int boardNo);
@@ -34,4 +42,3 @@ public interface BoardDao {
     // 게시글 총 개수 조회
     int getBoardCount();
 }
-

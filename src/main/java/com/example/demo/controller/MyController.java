@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,14 @@ public class MyController {
 	@Autowired
 	private IAdminDAO iadmindao;
 	
+	
+	@GetMapping("/login")
+	public String loginRoot() {
+		return "login";
+	}
+	
+	
+	
 	/*
 	@RequestMapping("/")
 	public String root(HttpSession session, Model model) {
@@ -47,6 +56,7 @@ public class MyController {
 	}
 	*/
 	
+	
 	@RequestMapping("/admin")
 	public String adminpage() {
 		return "admin";
@@ -58,20 +68,23 @@ public class MyController {
 		if (result != null) {
 	        HttpSession session = request.getSession();
 	        session.setAttribute("role", result.getRole());
-	        if (result.getRole().equals("구직자")) {
+	        if (result.getRole().equals("JOB_SEEKER")) {
 	            UserProfiles userProfiles = iusersdao.userInfoLoad(usersId);
 	            session.setAttribute("userProfiles", userProfiles);
 	            model.addAttribute("userProfiles", userProfiles);
-	        } else if (result.getRole().equals("기업")) {
+	        } else if (result.getRole().equals("COMPANY")) {
 	            Company company = iusersdao.comInfoLoad(usersId);
 	            session.setAttribute("company", company);
 	            model.addAttribute("company", company);
+	            
+	            System.out.println("컴퍼니 저장되었다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + company);
+	            
 	        }
 	        model.addAttribute("loginSuccess", "로그인 성공");
-	        return "index";
+	        return "index1";
 	    } else {
 	        model.addAttribute("loginFail", "아이디 또는 비밀번호가 잘못되었습니다.");
-	        return "index";
+	        return "login";
 	    }
 	}
 	
@@ -83,7 +96,7 @@ public class MyController {
 			session.setAttribute("admin", result);
 			String msg = "";
 			model.addAttribute("loginSuccess", msg);
-			return "index";
+			return "index1";
 		} else {
 			String msg = "";
 			model.addAttribute("loginFail", msg);
@@ -96,53 +109,40 @@ public class MyController {
 		session.invalidate();
 		String msg= "";
 		model.addAttribute("logoutmsg", msg);
-		return "index";
+		return "index1";
 	}
 	
 	@RequestMapping("/userDetail")
-	public String userDetail(HttpSession session, Model model) {
-		Role role = (Role) session.getAttribute("role");
-		if (role != null) {
-	        if (role.equals("구직자")) {
-	            UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
-	            if (userProfiles != null) {
-	                model.addAttribute("userProfiles", userProfiles);
-	        	    return "userDetail";
-	            }
-	        } else if (role.equals("기업")) {
-	            Company company = (Company) session.getAttribute("company");
-	            if (company != null) {
-	                model.addAttribute("company", company);
-	        	    return "companyDetail";
-	            }
-	        }
-	    } else {
-	        return "redirect:/login";
+	   public String userDetail(HttpSession session, Model model) {
+		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
+		Company company = (Company) session.getAttribute("company");
+	    // 유저 프로필이 존재하는 경우
+		if (userProfiles != null && Role.valueOf(userProfiles.getRole().toString()) == Role.JOB_SEEKER) {
+	        model.addAttribute("userProfiles", userProfiles);
+	        return "userDetail"; // 구직자 상세 페이지로 이동
 	    }
-		return "/";
-	}
+	    // 회사 정보가 존재하는 경우
+	    if (company != null && company.getRole() == Role.COMPANY) {
+	        model.addAttribute("company", company);
+	        return "companyDetail"; // 기업 상세 페이지로 이동
+	    } else {
+	           return "redirect:/login";
+	       }
+	   }
 	
 	@RequestMapping("/modify")
 	public String modify(HttpSession session, Model model) {
-		Role role = (Role) session.getAttribute("role");
-		if (role != null) {
-	        if (role.equals("구직자")) {
-	            UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
-	            if (userProfiles != null) {
-	                model.addAttribute("userProfiles", userProfiles);
-	        	    return "modifyUser";
-	            }
-	        } else if (role.equals("기업")) {
-	            Company company = (Company) session.getAttribute("company");
-	            if (company != null) {
-	                model.addAttribute("company", company);
-	        	    return "modifyCompany";
-	            }
-	        }
-	    } else {
-	        return "redirect:/login";
-	    }
-		return "/";
+		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
+		Company company = (Company) session.getAttribute("company");
+		if (userProfiles != null && Role.valueOf(userProfiles.getRole().toString()) == Role.JOB_SEEKER) {
+			model.addAttribute("userProfiles", userProfiles);
+			return "modifyUser";
+		} else if (company != null && company.getRole() == Role.COMPANY) {
+			model.addAttribute("company", company);
+			return "modifyCompany";
+		} else {
+			return "redirect:/login";
+		}
 	}
 	
 	@RequestMapping("/UserModify")
