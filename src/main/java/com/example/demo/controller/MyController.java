@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,6 +40,26 @@ public class MyController {
 		return "login";
 	}
 	
+<<<<<<< HEAD
+//	@RequestMapping("/")
+//	public String root(HttpSession session, Model model) {
+//	    Role role = (Role) session.getAttribute("role");
+//	    if (role != null) {
+//	    	if (role.equals("구직자")) {
+//	    		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
+//	    		if (userProfiles != null) {
+//	    			model.addAttribute("userProfiles", userProfiles);
+//	    		}
+//	    	} else if (role.equals("기업")) {
+//	    		Company company = (Company) session.getAttribute("company");
+//	    		if (company != null) {
+//	    			model.addAttribute("company", company);
+//	    		}
+//	    	}
+//	    }
+//	    return "/index";
+//	}
+=======
 	
 	
 	/*
@@ -61,6 +82,7 @@ public class MyController {
 	    return "/index";
 	}
 	*/
+>>>>>>> f3aab77fa452a4fcf3acd79dc1b2e572c38b5076
 	
 	@RequestMapping("/admin")
 	public String adminpage() {
@@ -78,7 +100,7 @@ public class MyController {
 	            session.setAttribute("userProfiles", userProfiles);
 	            model.addAttribute("userProfiles", userProfiles);
 	        } else if (result.getRole().equals("COMPANY")) {
-	            Company company = iusersdao.comInfoLoad(usersId);
+	            Company company = iusersdao.comInfoLoad(usersId); 
 	            session.setAttribute("company", company);
 	            model.addAttribute("company", company);
 	        }
@@ -121,12 +143,12 @@ public class MyController {
 	    // 유저 프로필이 존재하는 경우
 		if (userProfiles != null && Role.valueOf(userProfiles.getRole().toString()) == Role.JOB_SEEKER) {
 	        model.addAttribute("userProfiles", userProfiles);
-	        return "userDetail"; // 구직자 상세 페이지로 이동
+	        return "userDetail"; // 구직자 마이 페이지로 이동
 	    }
 	    // 회사 정보가 존재하는 경우
 	    if (company != null && company.getRole() == Role.COMPANY) {
 	        model.addAttribute("company", company);
-	        return "companyDetail"; // 기업 상세 페이지로 이동
+	        return "companyDetail"; // 기업 마이 페이지로 이동
 	    } else {
 	           return "redirect:/login";
 	       }
@@ -147,31 +169,31 @@ public class MyController {
 		}
 	}
 	
-	@RequestMapping("/UserModify")
-    public String modifyUser(@ModelAttribute UserProfiles userProfiles, HttpSession session, Model model) {        
-        userProfiles.setUsersId(userProfiles.getUsersId());
-        userProfiles.setPassword(userProfiles.getPassword());
-        userProfiles.setUserName(userProfiles.getUserName());
-        userProfiles.setNickname(userProfiles.getNickname());
-        userProfiles.setResiNumber(userProfiles.getResiNumber());
-        userProfiles.setRole(userProfiles.getRole());
-        userProfiles.setPhone(userProfiles.getPhone());
-        userProfiles.setEmail(userProfiles.getEmail());
-        userProfiles.setAddress(userProfiles.getAddress());
-        userProfiles.setGender(userProfiles.getGender());
-        userProfiles.setTechStack(userProfiles.getTechStack());
-        userProfiles.setUSalary(userProfiles.getUSalary());
-        int rowsAffected = iusersdao.updateUserProfile(userProfiles);
-        if (rowsAffected > 0) {
-            UserProfiles updatedUserProfile = iusersdao.userInfoLoad(userProfiles.getUsersId());
-            session.setAttribute("userProfiles", updatedUserProfile);
-            model.addAttribute("userProfiles", updatedUserProfile);
-        }
-        
-        return "/userDetail";
-	}
+	@RequestMapping("/modifyUser")
+	    public String modify1(@ModelAttribute UserProfiles userProfiles, HttpSession session, Model model) {        
+			userProfiles.setUsersId(userProfiles.getUsersId());
+	        userProfiles.setPassword(userProfiles.getPassword());
+	        userProfiles.setUserName(userProfiles.getUserName());
+	        userProfiles.setNickname(userProfiles.getNickname());
+	        userProfiles.setResiNumber(userProfiles.getResiNumber());
+	        userProfiles.setRole(userProfiles.getRole());
+	        userProfiles.setPhone(userProfiles.getPhone());
+	        userProfiles.setEmail(userProfiles.getEmail());
+	        userProfiles.setAddress(userProfiles.getAddress());
+	        userProfiles.setGender(userProfiles.getGender());
+	        userProfiles.setTechStack(userProfiles.getTechStack());
+	        userProfiles.setUSalary(userProfiles.getUSalary());
+	        int rowsAffected = iusersdao.updateUserProfile(userProfiles);
+	        if (rowsAffected > 0) {
+	            UserProfiles updatedUserProfile = iusersdao.userInfoLoad(userProfiles.getUsersId());
+	            session.setAttribute("userProfiles", updatedUserProfile);
+	            model.addAttribute("userProfiles", updatedUserProfile);
+	        }
+	        
+	        return "modifyPrivacy";
+	    }
 	
-	@RequestMapping("/CompanyModify")
+	@RequestMapping("/modifyCom")
     public String modifyCompany(@ModelAttribute Company company, HttpSession session, Model model) {        
         company.setUsersId(company.getUsersId());
         company.setPassword(company.getPassword());
@@ -191,7 +213,7 @@ public class MyController {
             session.setAttribute("company", updatedCompany);
             model.addAttribute("company", updatedCompany);
         }
-        return "/companyDetail";
+        return "modifyCom";
 	}
 	
 	@RequestMapping("/myPostList")

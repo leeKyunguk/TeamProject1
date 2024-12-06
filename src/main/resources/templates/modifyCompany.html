@@ -16,22 +16,20 @@
 <h1>기업정보 수정 페이지</h1>
 <a href="/index1">메인 페이지로 가기</a>
 <hr>
-	<div th:if="${company != null}">
-    	<form action="/CompanyModify" method="post">
-			아이디: <input type="text" name="usersId" th:value="${company.usersId}" readonly class="readonly-input"/><br/>
-			비밀번호: <input type="text" name="password" th:value="${company.password}"/><br/>
-			기업이름: <input type="text" name="comName" th:value="${company.comName}"/><br/>
-			대표자명: <input type="text" name="ceoName" th:value="${company.ceoName}"/><br/>
-			사업자등록번호: <input type="text" name="businessNo" th:value="${company.businessNo}" readonly class="readonly-input"/><br/>
-			연락처: <input type="text" name="tel" th:value="${company.tel}"/><br/>
-			이메일: <input type="text" name="email" th:value="${company.email}"/><br/>
-			주소: <input type="text" name="address" th:value="${company.address}"/><br/>
-			기업형태: <input type="text" name="comType" th:value="${company.comType}"/><br/>
-			업종: <input type="text" name="comSector" th:value="${company.comSector}" readonly class="readonly-input"/><br/>
-			사원수: <input type="text" name="employeeCount" th:value="${company.employeeCount}"/><br/>
-			매출액: <input type="text" name="sales" th:value="${company.sales}"/><br/>
-			<input type="submit" value="수정">
-		</form>    
-	</div>
+   	<form action="modifyCom" method="post">
+	아이디 : <input type="text" name="usersId" th:value="${session.company.usersId}" readonly class="readonly-input"><br/>
+	비밀번호 : <input type="text" name="Password" th:value="${session.company.password}"><br/>
+	기업이름 : <input type="text" name="comName" th:value="${session.company.comName}"><br/>
+	대표자명 : <input type="text" name="ceoName" th:value="${session.company.ceoName}"><br/>
+	사업자등록번호 : <input type="text" name="businessNo" th:value="${session.company.businessNo}" readonly class="readonly-input"><br/>
+	연락처 : <input type="text" name="tel" th:value="${session.company.tel}"><br/>
+	이메일 : <input type="text" name="email" th:value="${session.company.email}"><br/>
+	주소 : <input type="text" name="address" th:value="${session.company.address}"><br/>
+	기업형태 : <input type="text" name="comType" th:value="${session.company.comType}"><br/>
+	업종 : <input type="text" name="comSector" th:value="${session.company.comSector}" readonly class="readonly-input"><br/>
+	사원수 : <input type="text" name="employeeCount" th:value="${session.company.employeeCount}"><br/>
+	매출액 : <input type="text" name="sales" th:value="${session.company.sales}"><br/>
+		<input type="submit" value="수정하기">
+	</form>    
 </body>
 </html>
