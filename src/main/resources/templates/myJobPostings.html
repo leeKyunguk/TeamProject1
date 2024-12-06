@@ -102,13 +102,13 @@
         </tr>
     </thead>
     <tbody>
-        <tr th:each="list : ${list}">
-            <td>[[${list.postNo}]]</td>
-            <td><a th:href="@{'/jobPosting/detail/' + ${list.postNo}}">[[${list.title}]]</a></td>
-            <td>[[${list.comName}]]</td>
-            <td>[[${list.location}]]</td>
-            <td>[[${list.status}]]</td>
-            <td>[[${list.deadline}]]</td>
+        <tr th:each="myJobPostings : ${myJobPostings}">
+            <td>[[${myJobPostings.postNo}]]</td>
+            <td><a th:href="@{'/jobPosting/detail/' + ${myJobPostings.postNo}}">[[${myJobPostings.title}]]</a></td>
+            <td>[[${myJobPostings.comName}]]</td>
+            <td>[[${myJobPostings.location}]]</td>
+            <td>[[${myJobPostings.status}]]</td>
+            <td>[[${myJobPostings.deadline}]]</td>
         </tr>
     </tbody>
 </table>

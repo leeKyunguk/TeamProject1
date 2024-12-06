@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<h1>지원자 현황</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>
+                <th>나이</th>
+                <th>성별</th>
+                <th>기술스택</th>
+                <th>희망연봉</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="applist : ${applist}">
+                <td th:text="${applist.appNo}"></td>
+                <td th:text="${applist.userName}"></td>
+                <td th:text="${applist.resiNumber}"></td>
+                <td th:text="${applist.gender}"></td>
+                <td th:text="${applist.techStack}"></td>
+                <td th:text="${applist.uSalary}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>기업정보 마이 페이지</h1>
+<a href="/index1">메인 페이지로 가기</a>
+<hr>
+    <div th:if="${company != null}">
+       <span th:if="${company != null}" th:text="${session.company.comName} + ' 기업의 페이지입니다.'"></span><br/>
+       <a th:href="@{/myJobPostings}">내가 쓴 공고 조회</a><br/>
+       <a th:href="@{/bookMarkedJobSeeker}">북마크 한 구직자 조회</a><br/>
+       <a th:href="@{/companyDetail}">회사정보 수정</a><br/>
+       <a th:href="@{/withdraw}">회원탈퇴</a><br/>
+   </div>
+</body>
+</html>

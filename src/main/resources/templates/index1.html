@@ -37,7 +37,7 @@
 	  <div th:if="${session.userProfiles?.usersId != null or session.company?.usersId != null}">
 		<span th:if="${session.userProfiles != null}" th:text="${session.userProfiles.userName} + '님 환영합니다.'"></span>
 		<span th:if="${session.company != null}" th:text="${session.company.comName} + ' 기업 담당자님 환영합니다.'"></span>
-		<a href="userDetail">마이페이지</a>
+		<a th:href="@{/myPage}">마이페이지</a>
 	  </div>
 	  <div th:if="${session.userProfiles?.usersId == null and session.company?.usersId == null}">
 		<li>

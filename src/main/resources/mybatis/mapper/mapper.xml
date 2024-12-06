@@ -26,15 +26,19 @@
         JOIN Company c ON jp.comNo = c.comNo
         WHERE jp.postNo = #{postNo}
     </select>
+    
+    <select id="getJobPostingsByPostUsersId" resultType="com.example.demo.dto.JobPosting">
+    	SELECT jp.postNo, jp.title, c.comName, jp.location, jp.`status`, jp.deadline FROM users u JOIN jobPosting jp ON u.usersid = jp.usersid join company c on jp.comNo = c.comNo where u.usersid = #{usersId};
+    </select>
     <insert id="applicatePost" parameterType="com.example.demo.dto.Applicant">
     	INSERT INTO applicant (postNo, userNo)VALUES (#{postNo}, #{userNo})
     </insert>    
     <delete id="delApplicant" parameterType="com.example.demo.dto.Applicant">
     	DELETE FROM applicant WHERE postNo = #{postNo} and userNo = #{userNo}
     </delete>
-    
     <select id="getapplicantlist" resultType="com.example.demo.dto.Applicant">
-    	SELECT a.postno, a.userno, up.username, up.resinumber, up.gender, up.techStack, up.usalary FROM applicant a join userProfiles up ON a.userno = up.userno WHERE a.postno = #{postNo}
+    	SELECT a.appNo, up.username, SUBSTRING_INDEX(up.resinumber, '-', 1) AS resinumber_date, up.gender, up.techStack, up.usalary 
+		FROM applicant a JOIN userProfiles up ON a.userno = up.userno WHERE a.postno = #{postNo};
     </select>
     <update id="updateJobPosting" parameterType="com.example.demo.dto.JobPosting">
         UPDATE jobPosting

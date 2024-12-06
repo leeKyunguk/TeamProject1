@@ -122,10 +122,12 @@ public class MoveController {
 	
 	@RequestMapping("/showApplicant")
 	public String applicantlist(@RequestParam("postNo") int postNo, Model model) {
-		List<Applicant> applist = ijp.getapplicantlist(postNo);
-		model.addAttribute("applist", applist);
-		return "detail";
+	    List<Applicant> applist = ijp.getapplicantlist(postNo);
+	    System.out.println("이런거이런거이런거이런거"+applist);
+	    model.addAttribute("applist", applist);
+	    return "showApplicant";
 	}
+
 	
 	@RequestMapping("/applicate")
 	public String applicatePost(@RequestParam("postNo") int postNo, @RequestParam("userNo") int userNo, HttpSession session, Model model) {
