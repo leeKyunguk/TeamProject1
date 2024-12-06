@@ -34,16 +34,16 @@
       <li class="search-starter">
         <a href="javascript:void(0)"></a>
       </li>
-      <div th:if="${session.userProfiles?.usersId != null or session.company?.usersId != null}">
+	  <div th:if="${session.userProfiles?.usersId != null or session.company?.usersId != null}">
 		<span th:if="${session.userProfiles != null}" th:text="${session.userProfiles.userName} + '님 환영합니다.'"></span>
-    	<span th:if="${session.company != null}" th:text="${session.company.comName} + ' 기업 담당자님 환영합니다.'"></span>
-    	<a href="userDetail">마이페이지</a>
+		<span th:if="${session.company != null}" th:text="${session.company.comName} + ' 기업 담당자님 환영합니다.'"></span>
+		<a href="userDetail">마이페이지</a>
 	  </div>
 	  <div th:if="${session.userProfiles?.usersId == null and session.company?.usersId == null}">
-      	<li>
-	        <a th:href="@{/login}">로그인</a>
-      	</li>
-      	<li>
+		<li>
+			<a href="/login">로그인</a>
+		</li>
+		<li>
         	<a th:href="@{/signUp}">회원가입</a>
       	</li>
       </div>

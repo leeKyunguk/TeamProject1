@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dao.IAdminDAO;
+import com.example.demo.dao.IJobPosting;
 import com.example.demo.dao.IUsersDAO;
 import com.example.demo.dto.Admin;
 import com.example.demo.dto.Company;
+import com.example.demo.dto.JobPosting;
 import com.example.demo.dto.UserProfiles;
 import com.example.demo.dto.Users;
 import com.example.demo.dto.Company.Role;
@@ -27,6 +31,8 @@ public class MyController {
 	private IUsersDAO iusersdao;
 	@Autowired
 	private IAdminDAO iadmindao;
+	@Autowired
+	private IJobPosting ijobposting;
 	
 	
 	@GetMapping("/login")
@@ -34,6 +40,7 @@ public class MyController {
 		return "login";
 	}
 	
+<<<<<<< HEAD
 //	@RequestMapping("/")
 //	public String root(HttpSession session, Model model) {
 //	    Role role = (Role) session.getAttribute("role");
@@ -52,14 +59,37 @@ public class MyController {
 //	    }
 //	    return "/index";
 //	}
+=======
 	
+	
+	/*
+	@RequestMapping("/")
+	public String root(HttpSession session, Model model) {
+	    Role role = (Role) session.getAttribute("role");
+	    if (role != null) {
+	    	if if (role == Role.JOB_SEEKER) {
+	    		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
+	    		if (userProfiles != null) {
+	    			model.addAttribute("userProfiles", userProfiles);
+	    		}
+	    	} else if (role == Role.COMPANY) {
+	    		Company company = (Company) session.getAttribute("company");
+	    		if (company != null) {
+	    			model.addAttribute("company", company);
+	    		}
+	    	}
+	    }
+	    return "/index";
+	}
+	*/
+>>>>>>> f3aab77fa452a4fcf3acd79dc1b2e572c38b5076
 	
 	@RequestMapping("/admin")
 	public String adminpage() {
 		return "admin";
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping("/logIn")
 	public String login(@RequestParam("usersId") String usersId, @RequestParam("password") String password, HttpServletRequest request, Model model) {
 		Users result = iusersdao.userLogin(usersId, password);
 		if (result != null) {
@@ -73,17 +103,14 @@ public class MyController {
 	            Company company = iusersdao.comInfoLoad(usersId); 
 	            session.setAttribute("company", company);
 	            model.addAttribute("company", company);
-	            
-	            System.out.println("컴퍼니 저장되었다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + company);
-	            
 	        }
 	        model.addAttribute("loginSuccess", "로그인 성공");
 	        return "index1";
 	    } else {
 	        model.addAttribute("loginFail", "아이디 또는 비밀번호가 잘못되었습니다.");
-	        return "login";
 	    }
-	}
+	        return "index1";
+    }
 	
 	@RequestMapping("/adminlogin")
 	public String adminLogIn(@RequestParam("adminId") String adminId, @RequestParam("adminPw") String adminPw, HttpServletRequest request, Model model) {
@@ -110,7 +137,7 @@ public class MyController {
 	}
 	
 	@RequestMapping("/userDetail")
-	   public String userDetail(HttpSession session, Model model) {
+	public String userDetail(HttpSession session, Model model) {
 		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
 		Company company = (Company) session.getAttribute("company");
 	    // 유저 프로필이 존재하는 경우
@@ -180,7 +207,6 @@ public class MyController {
         company.setComSector(company.getComSector());
         company.setEmployeeCount(company.getEmployeeCount());
         company.setSales(company.getSales());
-        System.out.println(iusersdao.comInfoLoad(company.getUsersId()));
         int rowsAffected = iusersdao.updateCompany(company);
         if (rowsAffected > 0) {
             Company updatedCompany = iusersdao.comInfoLoad(company.getUsersId());
@@ -189,4 +215,23 @@ public class MyController {
         }
         return "modifyCom";
 	}
+	
+	@RequestMapping("/myPostList")
+	public String mypostlist(HttpSession session, Model model) {
+		Role role = (Role) session.getAttribute("role");
+		String usersId = (String) session.getAttribute("usersId");
+	    if (role != null) {
+	    	if (role == Role.COMPANY) {
+	    		Company company = (Company) session.getAttribute("company");
+	    		if (company != null) {
+	    			model.addAttribute("company", company);
+	    			List<JobPosting> list = ijobposting.getJobPostingsByPostUsersId(usersId);
+	    			model.addAttribute("list", list);
+	    			return "myPostList";
+	    		}
+	    	}
+	    }
+		return "/login";
+	}
+	
 }
