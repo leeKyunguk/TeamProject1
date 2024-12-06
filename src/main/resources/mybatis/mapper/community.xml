@@ -9,12 +9,16 @@
             b.boardTitle,
             b.boardContent,
             b.boardRegDate,
-            IFNULL(up.nickname, c.comName) AS writerName
+            CASE 
+                WHEN b.userNo IS NOT NULL THEN up.nickname
+                WHEN b.comNo IS NOT NULL THEN c.comName
+                ELSE '알 수 없음'
+            END AS writerName
         FROM board b
         LEFT JOIN userProfiles up ON b.userNo = up.userNo
         LEFT JOIN company c ON b.comNo = c.comNo
         ORDER BY b.boardRegDate DESC
-        <!-- LIMIT #{offset}, #{limit}; -->
+        LIMIT #{limit} OFFSET #{offset};
     </select>
 
     <!-- 게시글 상세 조회 -->
@@ -22,9 +26,15 @@
         SELECT 
             b.boardNo,
             b.boardTitle,
+            b.userNo,
+            b.comNo,
             b.boardContent,
             b.boardRegDate,
-            IFNULL(up.nickname, c.comName) AS writerName
+            CASE 
+                WHEN b.userNo IS NOT NULL THEN up.nickname
+                WHEN b.comNo IS NOT NULL THEN c.comName
+                ELSE '알 수 없음'
+            END AS writerName
         FROM board b
         LEFT JOIN userProfiles up ON b.userNo = up.userNo
         LEFT JOIN company c ON b.comNo = c.comNo
@@ -40,7 +50,11 @@
             c.comNo,
             c.comment,
             c.commentRegDate,
-            IFNULL(up.nickname, com.comName) AS writerName
+            CASE 
+                WHEN c.userNo IS NOT NULL THEN up.nickname
+                WHEN c.comNo IS NOT NULL THEN com.comName
+                ELSE '알 수 없음'
+            END AS writerName
         FROM comment c
         LEFT JOIN userProfiles up ON c.userNo = up.userNo
         LEFT JOIN company com ON c.comNo = com.comNo
@@ -55,13 +69,13 @@
 
     <!-- 게시글 등록 -->
     <insert id="insertBoard">
-        INSERT INTO board (userNo, comNo,  boardTitle, boardContent, boardRegDate)
+        INSERT INTO board (userNo, comNo, boardTitle, boardContent, boardRegDate)
         VALUES (#{userNo}, #{comNo}, #{boardTitle}, #{boardContent}, NOW());
     </insert>
 
     <!-- 댓글 등록 -->
     <insert id="insertComment">
-        INSERT INTO comment (boardNo, userNo, comNo,  commentContent, commentRegDate)
+        INSERT INTO comment (boardNo, userNo, comNo, commentContent, commentRegDate)
         VALUES (#{boardNo}, #{userNo}, #{comNo}, #{commentContent}, NOW());
     </insert>
 

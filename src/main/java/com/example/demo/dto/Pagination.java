@@ -49,5 +49,3 @@ public class Pagination {
         this.totalPages = (int) Math.ceil((double) this.totalItems / this.pageSize); // 페이지 재계산
     }
 }
-
-
