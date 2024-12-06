@@ -26,8 +26,18 @@
         JOIN Company c ON jp.comNo = c.comNo
         WHERE jp.postNo = #{postNo}
     </select>
+    <insert id="applicatePost" parameterType="com.example.demo.dto.Applicant">
+    	INSERT INTO applicant (postNo, userNo)VALUES (#{postNo}, #{userNo})
+    </insert>    
+    <delete id="delApplicant" parameterType="com.example.demo.dto.Applicant">
+    	DELETE FROM applicant WHERE postNo = #{postNo} and userNo = #{userNo}
+    </delete>
+    
+    <select id="getapplicantlist" resultType="com.example.demo.dto.Applicant">
+    	SELECT a.postno, a.userno, up.username, up.resinumber, up.gender, up.techStack, up.usalary FROM applicant a join userProfiles up ON a.userno = up.userno WHERE a.postno = #{postNo}
+    </select>
     <update id="updateJobPosting" parameterType="com.example.demo.dto.JobPosting">
-        UPDATE jobposting
+        UPDATE jobPosting
         SET
             comNo = #{comNo},
             managerName = #{managerName},
@@ -45,7 +55,6 @@
             status = #{status}
         WHERE postNo = #{postNo}
     </update>
-
     <delete id="deleteJobPosting" parameterType="int">
         DELETE FROM jobposting WHERE postNo = #{postNo}
     </delete>

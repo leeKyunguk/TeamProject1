@@ -5,27 +5,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script th:if="${loginSuccess != null}">
-	alert("로그인에 성공했습니다!");
-</script>
-<script th:if="${loginFail != null}">
-	alert("로그인에 실패했습니다...");
-</script>
-<script th:if="${logoutmsg != null}">
-	alert("로그아웃에 성공했습니다!");
-</script>
+<h1>로그인 페이지</h1>
 <hr>
-	<form th:if="${session.userProfiles?.usersId == null and session.company?.usersId == null}" action="login" method="post">
-		<input type="text" name="usersId" placeholder="Id를 입력하세요.">
-		<input type="text" name="password" placeholder="Pw를 입력하세요.">
-		<input type="submit" value="로그인">
-	</form>
-	<p th:if="${session.userProfiles?.usersId != null or session.company?.usersId != null}">
-		<span th:if="${userProfiles != null}" th:text="${session.userProfiles.userName} + ' 님 환영합니다.'"></span>
-    	<span th:if="${company != null}" th:text="${session.company.comName} + ' 기업 담당자님 환영합니다.'"></span>
-	</p>
-<form th:if="${session.userProfiles?.usersId != null or session.company?.usersId != null}" action="logout" method="post">
-	<input type="submit" value="로그아웃">
-</form>
+   <form th:if="${session.userProfiles?.usersId == null and session.company?.usersId == null}" action="logIn" method="post">
+      <input type="text" name="usersId" placeholder="Id를 입력하세요.">
+      <input type="text" name="password" placeholder="Pw를 입력하세요.">
+      <input type="submit" value="로그인">
+   </form>
 </body>
 </html>
