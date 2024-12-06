@@ -6,6 +6,13 @@
 </head>
 <body>
     <h1>게시글 목록</h1>
+
+    <!-- 게시글 등록 버튼 (테이블 오른쪽 위 배치) -->
+    <div>
+        <a href="/form">게시글 등록</a>
+    </div>
+
+    <!-- 게시글 목록 테이블 -->
     <table border="1">
         <thead>
             <tr>
@@ -16,14 +23,12 @@
             </tr>
         </thead>
         <tbody>
-            <!-- 게시글 목록 출력 -->
+            <!-- 게시글 목록 반복 출력 -->
             <tr th:each="board : ${boardList}">
                 <td th:text="${board.boardNo}">번호</td>
                 <td>
-                    <!-- 제목 클릭 시 상세 페이지 이동 -->
-                    <a th:if="${board.boardNo != null}" 
-                       th:href="@{/detail/{boardNo}(boardNo=${board.boardNo})}" 
-                       th:text="${board.boardTitle}">제목</a>
+                    <!-- 제목 클릭 시 상세 페이지로 이동 -->
+                    <a th:href="@{/detail/{boardNo}(boardNo=${board.boardNo})}" th:text="${board.boardTitle}">제목</a>
                 </td>
                 <td th:text="${board.writerName}">작성자</td>
                 <td th:text="${board.boardRegDate}">등록일자</td>
@@ -31,23 +36,21 @@
         </tbody>
     </table>
 
-    <!-- 게시글 등록 버튼 -->
-    <a href="/form">게시글 등록</a>
-
-    <!-- 페이지네이션 
+    <!-- 페이지네이션 -->
     <div>
-        <a th:if="${currentPage > 1}" th:href="@{/list(page=1)}">처음</a>
-        <a th:if="${currentPage > 1}" th:href="@{/list(page=${currentPage - 1})}">이전</a>
+        <!-- 첫 페이지로 이동 -->
+        <a th:if="${currentPage > 1}" th:href="@{/communityPosts(page=1, size=${pageSize})}">처음</a>
+        <!-- 이전 페이지로 이동 -->
+        <a th:if="${currentPage > 1}" th:href="@{/communityPosts(page=${currentPage - 1}, size=${pageSize})}">이전</a>
+        <!-- 페이지 번호 반복 출력 -->
         <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-            <a th:if="${i != currentPage}" th:href="@{/list(page=${i})}" th:text="${i}"></a>
+            <a th:if="${i != currentPage}" th:href="@{/communityPosts(page=${i}, size=${pageSize})}" th:text="${i}"></a>
             <span th:if="${i == currentPage}" th:text="${i}"></span>
         </span>
-        <a th:if="${currentPage < totalPages}" th:href="@{/list(page=${currentPage + 1})}">다음</a>
-        <a th:if="${currentPage < totalPages}" th:href="@{/list(page=${totalPages})}">마지막</a>
+        <!-- 다음 페이지로 이동 -->
+        <a th:if="${currentPage < totalPages}" th:href="@{/communityPosts(page=${currentPage + 1}, size=${pageSize})}">다음</a>
+        <!-- 마지막 페이지로 이동 -->
+        <a th:if="${currentPage < totalPages}" th:href="@{/communityPosts(page=${totalPages}, size=${pageSize})}">마지막</a>
     </div>
-    -->
 </body>
 </html>
-
-
-

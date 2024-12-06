@@ -7,15 +7,28 @@
 <body>
     <h1>게시글 작성</h1>
     <form th:action="@{/save}" th:object="${board}" method="post">
+        <!-- 작성자 표시 (닉네임 또는 기업명) -->
+        <label for="writer">작성자:</label>
+        <input type="text" id="writer" 
+               th:value="${nickName == null ? comName : nickName}" 
+               readonly><br>
+
+        <!-- 숨겨진 필드로 userNo와 comNo 전달 -->
+        <!--  <input type="hidden" th:field="*{userNo}" th:value="${session.userType == 'USER' ? session.userNo : null}"> -->
+       <!-- <input type="hidden" th:field="*{comNo}" th:value="${session.userType == 'COMPANY' ? session.comNo : null}">-->
+
+        <!-- 게시글 제목 입력 -->
         <label for="boardTitle">제목:</label>
         <input type="text" id="boardTitle" th:field="*{boardTitle}" required><br>
         
+        <!-- 게시글 내용 입력 -->
         <label for="boardContent">내용:</label>
         <textarea id="boardContent" th:field="*{boardContent}" rows="5" required></textarea><br>
         
+        <!-- 게시글 등록 버튼 -->
         <button type="submit">등록</button>
     </form>
-    <a href="/list">목록으로</a>
+    <!-- 게시글 목록으로 이동 -->
+    <a href="/communityPosts">목록으로</a>
 </body>
 </html>
-

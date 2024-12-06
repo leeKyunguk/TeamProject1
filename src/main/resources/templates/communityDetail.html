@@ -2,26 +2,103 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 상세</title>
+    <!-- jQuery 라이브러리 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1 th:text="${board.boardTitle}">게시글 제목</h1>
-    <p th:text="${board.boardContent}">게시글 내용</p>
-    <p>작성자: <span th:text="${board.writerName}">작성자</span></p>
+    <!-- 게시글 제목 -->
+    <h1 th:text="'제목: ' + ${board.boardTitle}">게시글 제목</h1>
+
+    <!-- 게시글 내용 -->
+    <p th:text="'내용: ' + ${board.boardContent}">게시글 내용</p>
+
+    <!-- 작성자 정보 -->
+    <p>
+        작성자: 
+        <span th:if="${board.userNo != null}" th:text="${board.writerName}">구직자 닉네임</span>
+        <span th:if="${board.comNo != null}" th:text="${board.writerName}">기업명</span>
+    </p>
+
+    <!-- 등록일 -->
     <p>등록일자: <span th:text="${board.boardRegDate}">등록일자</span></p>
 
     <!-- 댓글 목록 -->
     <h2>댓글</h2>
     <ul th:if="${board.comments != null and !board.comments.isEmpty()}">
         <li th:each="comment : ${board.comments}">
-            <p th:text="${comment.writerName} + ': ' + ${comment.comment}">댓글 내용</p>
+            <!-- 댓글 작성자 -->
+            <p>
+                <span th:if="${comment.userNo != null}" th:text="${comment.writerName}">구직자 닉네임</span>
+                <span th:if="${comment.comNo != null}" th:text="${comment.writerName}">기업명</span>: 
+                <span th:text="${comment.comment}">댓글 내용</span>
+            </p>
+
+            <!-- 댓글 등록일 -->
             <p>등록일: <span th:text="${comment.commentRegDate}">등록일</span></p>
+
+            <!-- 댓글 삭제 링크 -->
             <a th:if="${comment.commentNo != null}" 
                th:href="@{/comment/delete/{commentNo}(commentNo=${comment.commentNo}, boardNo=${board.boardNo})}">삭제</a>
         </li>
     </ul>
+
+    <!-- 댓글 없음 메시지 -->
     <p th:if="${board.comments == null || board.comments.isEmpty()}">댓글이 없습니다.</p>
+
+    <!-- 댓글 입력 -->
+    <h3>댓글 작성</h3>
+    <label for="comment">댓글 내용:</label>
+    <textarea id="comment" name="comment" rows="5" required></textarea>
+    <br>
+    <button type="button" id="submitComment">댓글 등록</button>
+
+    <!-- 게시글 번호 전달 -->
+    <div id="boardData" data-board-no="/*[[${board.boardNo}]]*/"></div>
+
+    <script>
+        $(document).ready(function () {
+            // 게시글 번호를 HTML에서 가져오기
+            const boardNo = document.getElementById('boardData').dataset.boardNo;
+
+            if (!boardNo) {
+                console.error("게시글 번호를 가져올 수 없습니다!");
+                return;
+            }
+
+            console.log("게시글 번호:", boardNo);
+
+            // 댓글 등록 버튼 클릭 이벤트 처리
+            $('#submitComment').on('click', function () {
+                const comment = $('#comment').val();
+                if (!comment.trim()) {
+                    alert('댓글 내용을 입력해주세요.');
+                    return;
+                }
+
+                const commentData = {
+                    boardNo: boardNo,
+                    comment: comment
+                };
+
+                $.ajax({
+                    url: '/comment/save',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(commentData),
+                    success: function () {
+                        alert('댓글이 등록되었습니다.');
+                        $('#comment').val(''); // 입력창 초기화
+                        location.reload(); // 새로고침
+                    },
+                    error: function (err) {
+                        console.error(err);
+                        alert('댓글 등록에 실패했습니다.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-
-
