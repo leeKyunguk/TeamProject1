@@ -41,7 +41,7 @@
 	  </div>
 	  <div th:if="${session.userProfiles?.usersId == null and session.company?.usersId == null}">
 		<li>
-			<a th:href="@{/login}">로그인</a>
+			<a href="/login">로그인</a>
 		</li>
 		<li>
         	<a th:href="@{/signUp}">회원가입</a>

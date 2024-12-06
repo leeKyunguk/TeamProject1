@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dao.ICompany;
 import com.example.demo.dao.IJobPosting;
+import com.example.demo.dto.Applicant;
 import com.example.demo.dto.JobPosting;
 
 import jakarta.servlet.http.HttpSession;
@@ -74,8 +75,9 @@ public class MoveController {
 		jp.setStatus(convertStatus(status));
 		
 		ijp.reglist(jp);
-		return "redirect:/viewlist"; 
+		return "redirect:/viewJobsPostings"; 
 	}
+	
 	private JobPosting.PostGradu convertPostGradu(String postGradu) {
 	    switch (postGradu) {
 	        case "고등학교졸업":
@@ -88,6 +90,7 @@ public class MoveController {
 	            throw new IllegalArgumentException("Unknown graduation level: " + postGradu);
 	    }
 	}
+	
 	private JobPosting.Status convertStatus(String status) {
 	    switch (status) {
 	        case "모집중":
@@ -99,7 +102,7 @@ public class MoveController {
 	    }
 	}
 	
-	@RequestMapping("/viewlist")
+	@RequestMapping("/viewJobsPostings")
 	public String list(Model model) {
 		List<JobPosting> list = ijp.getList();
 		
@@ -108,16 +111,49 @@ public class MoveController {
 		return "viewJobsPostings";
 	}
 	
+	@RequestMapping("/showApplicant")
+	public String applicantlist(@RequestParam("postNo") int postNo, Model model) {
+		List<Applicant> applist = ijp.getapplicantlist(postNo);
+		model.addAttribute("applist", applist);
+		return "detail";
+	}
+	
+	@RequestMapping("/applicate")
+	public String applicatePost(@RequestParam("postNo") int postNo, @RequestParam("userNo") int userNo, HttpSession session, Model model) {
+		Applicant applicant = new Applicant();
+		applicant.setPostNo(postNo);
+		applicant.setUserNo(userNo);
+		ijp.applicatePost(applicant);
+
+		System.out.println(applicant);
+		session.setAttribute("applicant", applicant);
+		
+		List<JobPosting> list = ijp.getList();
+		model.addAttribute("list", list);
+		return "viewJobsPostings";
+	}
+	
+	@RequestMapping("delApplicant")
+	public String deleteApplicant(@RequestParam("postNo") int postNo, @RequestParam("userNo") int userNo, Model model) {
+		Applicant applicant = new Applicant();
+		applicant.setPostNo(postNo);
+		applicant.setUserNo(userNo);
+		ijp.delApplicant(applicant);
+		
+		List<JobPosting> list = ijp.getList();
+		model.addAttribute("list", list);
+		return "viewJobsPostings";
+	}
+	
 	@RequestMapping("/jobPosting/detail/{postNo}")
-	public String detail(@PathVariable("postNo") int postNo, Model model) {
+	public String detail(@PathVariable("postNo") int postNo, HttpSession session, Model model) {
+		Applicant applicant = (Applicant) session.getAttribute("applicant");
 	    JobPosting jobPosting = ijp.getJobPostingByPostNo(postNo);
 	    model.addAttribute("jobPosting", jobPosting);
-	    
-	    System.out.println(jobPosting);
+	    model.addAttribute("applicant", applicant);
 	    return "detail";
 	}
 
-	
 	@RequestMapping("/update")
 	public String update(@RequestParam("postNo") int postNo,
 	                     @RequestParam("comName") String comName,
@@ -156,13 +192,13 @@ public class MoveController {
 
 	    ijp.updateJobPosting(jobPosting);
 
-	    return "redirect:/viewlist";
+	    return "redirect:/viewJobsPostings";
 	}
 
     @RequestMapping("/delete")
     public String delete(@RequestParam("postNo") int postNo) {
         ijp.deleteJobPosting(postNo);
-        return "redirect:/viewlist";
+        return "redirect:/viewJobsPostings";
     }
 
 }

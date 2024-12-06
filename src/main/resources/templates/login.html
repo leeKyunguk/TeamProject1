@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>로그인 페이지</h1>
+<hr>
+   <form th:if="${session.userProfiles?.usersId == null and session.company?.usersId == null}" action="logIn" method="post">
+      <input type="text" name="usersId" placeholder="Id를 입력하세요.">
+      <input type="text" name="password" placeholder="Pw를 입력하세요.">
+      <input type="submit" value="로그인">
+   </form>
+</body>
+</html>

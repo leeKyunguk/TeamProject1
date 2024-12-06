@@ -59,4 +59,5 @@ public class JobPosting {
     private LocalDate regdate; // 등록일
     private LocalDate deadline; // 마감일
     private Status status;       // 공고 상태
+    private String applicated;
 }

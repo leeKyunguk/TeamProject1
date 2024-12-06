@@ -53,22 +53,27 @@ public class MyController {
 	}
 	*/
 	
+	@RequestMapping("/login")
+	public String loginroot() {
+		return "login";
+	}
+	
 	@RequestMapping("/admin")
 	public String adminpage() {
 		return "admin";
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping("/logIn")
 	public String login(@RequestParam("usersId") String usersId, @RequestParam("password") String password, HttpServletRequest request, Model model) {
 		Users result = iusersdao.userLogin(usersId, password);
 		if (result != null) {
 	        HttpSession session = request.getSession();
 	        session.setAttribute("role", result.getRole());
-	        if (result.getRole().equals("구직자")) {
+	        if (result.getRole().equals("JOB_SEEKER")) {
 	            UserProfiles userProfiles = iusersdao.userInfoLoad(usersId);
 	            session.setAttribute("userProfiles", userProfiles);
 	            model.addAttribute("userProfiles", userProfiles);
-	        } else if (result.getRole().equals("기업")) {
+	        } else if (result.getRole().equals("COMPANY")) {
 	            Company company = iusersdao.comInfoLoad(usersId);
 	            session.setAttribute("company", company);
 	            model.addAttribute("company", company);
@@ -176,7 +181,6 @@ public class MyController {
         company.setComSector(company.getComSector());
         company.setEmployeeCount(company.getEmployeeCount());
         company.setSales(company.getSales());
-        System.out.println(iusersdao.comInfoLoad(company.getUsersId()));
         int rowsAffected = iusersdao.updateCompany(company);
         if (rowsAffected > 0) {
             Company updatedCompany = iusersdao.comInfoLoad(company.getUsersId());

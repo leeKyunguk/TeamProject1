@@ -3,8 +3,8 @@ package com.example.demo.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
+import com.example.demo.dto.Applicant;
 import com.example.demo.dto.JobPosting;
 
 @Mapper
@@ -16,4 +16,7 @@ public interface IJobPosting {
 	public void updateJobPosting(JobPosting jobPosting); // 공고 수정
     public void deleteJobPosting(int postNo);           // 공고 삭제
     public List<JobPosting> getJobPostingsByPostUsersId(String usersid);
+    public List<Applicant> getapplicantlist(int postNo);
+    public void applicatePost(Applicant applicant);
+    public void delApplicant(Applicant applicant);
 }
