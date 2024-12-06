@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <main>
+        <h1>이력서 목록</h1>
+
+        <a th:href="@{/resume/register}" class="btn">이력서 등록</a>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>회원 번호</th>
+                    <th>등록일자</th>
+                    <th>수정</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="resume : ${resumeList}">
+                    <td th:text="${resume.resumeNo}"></td>
+                    <td th:text="${resume.userNo}"></td>
+                    <td th:text="${resume.regDate}"></td>
+                    <td><a th:href="@{/resume/edit/{resumeNo}(resumeNo=${resume.resumeNo})}">수정</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
