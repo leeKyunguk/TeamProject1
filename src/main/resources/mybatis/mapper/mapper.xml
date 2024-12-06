@@ -1,52 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.IJobPosting">
+
     <insert id="reglist" parameterType="com.example.demo.dto.JobPosting">
         INSERT INTO jobposting (
             postNo, comNo, managerName, usersId, postExperience, workType, postGradu,
             title, postDescription, postTechStack, location, postSalary,
             regdate, deadline, status
-        ) VALUES (
-            null, #{comNo}, #{managerName}, #{usersId}, #{postExperience}, #{workType}, #{postGradu},
-            #{title}, #{postDescription}, #{postTechStack}, #{location}, #{postSalary},
+        ) VALUES
+        (
+            null, #{comNo}, #{managerName}, #{usersId}, #{postExperience}, #{workType},
+            #{postGradu}, #{title}, #{postDescription}, #{postTechStack}, #{location}, #{postSalary},
             #{regdate}, #{deadline}, #{status}
         )
     </insert>
+
     <select id="getList" resultType="com.example.demo.dto.JobPosting">
-		SELECT j.postNo, j.title, c.comname, j.location, j.status, j.deadline FROM jobposting j JOIN company c ON j.comNo=c.comNo ORDER BY j.postNo DESC;
-   </select>
-   <select id="getJobPostingByPostNo" resultType="com.example.demo.dto.JobPosting">
-        SELECT jp.postNo, c.comName, jp.usersId, jp.managerName, jp.postExperience, jp.workType, jp.postGradu, 
-               jp.title, jp.postDescription, jp.postTechStack, jp.location, jp.postSalary, jp.regdate, 
-               jp.deadline, jp.status
-        FROM JobPosting jp
-        JOIN Company c ON jp.comNo = c.comNo
+        SELECT j.postNo, j.title, c.comname, j.location, j.status,
+            j.deadline FROM jobposting j JOIN company c ON j.comNo=c.comNo ORDER
+        BY j.postNo DESC;
+    </select>
+
+    <select id="getJobPostingByPostNo" resultType="com.example.demo.dto.JobPosting">
+        SELECT jp.postNo, c.comName, jp.usersId, jp.managerName,
+            jp.postExperience, jp.workType, jp.postGradu, jp.title,
+            jp.postDescription, jp.postTechStack, jp.location, jp.postSalary,
+            jp.regdate, jp.deadline, jp.status
+        FROM jobposting jp
+        JOIN company c ON jp.comNo = c.comNo
         WHERE jp.postNo = #{postNo}
     </select>
+
     <update id="updateJobPosting" parameterType="com.example.demo.dto.JobPosting">
         UPDATE jobposting
-        SET
-            comNo = #{comNo},
-            managerName = #{managerName},
-            usersId = #{usersId},
-            postExperience = #{postExperience},
-            workType = #{workType},
-            postGradu = #{postGradu},
-            title = #{title},
-            postDescription = #{postDescription},
-            postTechStack = #{postTechStack},
-            location = #{location},
-            postSalary = #{postSalary},
-            regdate = #{regdate},
-            deadline = #{deadline},
-            status = #{status}
+        SET comNo = #{comNo}, managerName = #{managerName}, usersId = #{usersId},
+            postExperience = #{postExperience}, workType = #{workType}, postGradu = #{postGradu},
+            title = #{title}, postDescription = #{postDescription}, postTechStack = #{postTechStack},
+            location = #{location}, postSalary = #{postSalary}, regdate = #{regdate},
+            deadline = #{deadline}, status = #{status}
         WHERE postNo = #{postNo}
     </update>
 
-    <delete id="deleteJobPosting" parameterType="int">
-        DELETE FROM jobposting WHERE postNo = #{postNo}
+    <delete id="deleteBookmarkByComName">
+        DELETE FROM usersubscribecom
+        WHERE comNo = (SELECT comNo FROM company WHERE comName = #{comName})
+        AND userNo = #{userNo} AND ucSubscribed = 'Y';
     </delete>
+
+    <insert id="addBookmark">
+        INSERT INTO usersubscribecom
+        VALUES (null, #{ucSubscribed}, #{userNo}, #{comNo});
+    </insert>
+
+    <select id="isBookmarked" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM usersubscribecom
+        WHERE comNo = (SELECT comNo FROM company WHERE comName = #{comName})
+        AND userNo = #{userNo} AND ucSubscribed = 'BOOKMARK';
+    </select>
+
+    <insert id="userScrap" parameterType="com.example.demo.dto.UserScrap">
+        INSERT INTO userscrap VALUES (NULL, 'BOOKMARK', #{userNo}, #{postNo})
+    </insert>
+
+    <select id="seluscBookMark" resultType="com.example.demo.dto.UscBookMark">
+        SELECT u_s_c_No, ucSubscribed, u.userNo, c.comNo FROM usersubscribecom usc
+        JOIN users u ON usc.userNO = u.userNo
+        JOIN company c ON usc.comNo = c.comNo
+        WHERE u.userNo = #{userNo}
+    </select>
+
+    <select id="selcsuBookMark" resultType="com.example.demo.dto.CsuBookMark">
+        SELECT c_s_u_No, cuSubscribed, u.userNo, c.comNo FROM cuSubscribed csu
+        JOIN users u ON csu.userNo = u.userNo
+        JOIN company c ON csu.comNo = c.comNo
+        WHERE u.userNo = #{userNo}
+    </select>
+
+    <select id="seluserScrap" resultType="com.example.demo.dto.UserScrap">
+        SELECT scrapNo, uScraped, u.userNo, p.postNo FROM userscrap sc
+        JOIN users u ON sc.userNo = u.userNo
+        JOIN post p ON sc.postNo = p.postNo
+        WHERE sc.userNo = #{userNo}
+    </select>
+
+    <select id="getComNameByComNo" resultType="String">
+        SELECT comName
+        FROM company
+        WHERE comNo = #{comNo}
+    </select>
+
+    <select id="checkBookmarkStatus" resultType="int">
+        SELECT COUNT(*)
+        FROM usersubscribecom
+        WHERE comNo = #{comNo} AND userNo = #{userNo}
+    </select>
+
 </mapper>

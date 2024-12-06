@@ -18,7 +18,7 @@
 <hr>
     <div th:if="${userProfiles != null}">
         <h2>구직자 정보</h2>
-        <form action="/UserModify" method="post">
+        <form action="modifyUser" method="post">
             아이디: <input type="text" name="usersId" th:value="${userProfiles.usersId}" readonly class="readonly-input"/><br/>
             비밀번호: <input type="text" name="password" th:value="${userProfiles.password}"/><br/>
             이름: <input type="text" name="userName" th:value="${userProfiles.userName}"/><br/>

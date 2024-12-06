@@ -6,13 +6,18 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.example.demo.dto.JobPosting;
+import com.example.demo.dto.UscBookMark;
 
 @Mapper
 public interface IJobPosting {
-	public List<JobPosting> getList(); // 전체 조회
-	public void reglist(JobPosting jobposting); // 등록하기
-	public void dellist(int postNo); // 삭제하기
+	public List<JobPosting> getList();
+	public void reglist(JobPosting jobposting);
+	public void dellist(int postNo);
 	public JobPosting getJobPostingByPostNo(int postNo);
-	public void updateJobPosting(JobPosting jobPosting); // 공고 수정
-    public void deleteJobPosting(int postNo);           // 공고 삭제
+	public void updateJobPosting(JobPosting jobPosting);
+    public void deleteJobPosting(int postNo);
+    public void isBookmarked(@Param("comNo") int comNo, @Param("userNo") int userNo);
+    public void addBookmark(@Param("comNo") int comNo, @Param("userNo") int userNo);
+    public void deleteBookmark(@Param("comNo") int comNo, @Param("userNo") int userNo);
+    public int checkBookmarkStatus(@Param("comNo") int comNo, @Param("userNo") int userNo);
 }

@@ -5,26 +5,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>기업정보 상세 페이지</h1>
+<h1>기업정보 마이 페이지</h1>
 <a href="/index1">메인 페이지로 가기</a>
 <hr>
     <div th:if="${company != null}">
-        <h2>기업 정보</h2>
-        <p>아이디: <span th:text="${company.usersId}"></span></p>
-        <p>비밀번호: <span th:text="${company.password}"></span></p>
-        <p>기업이름: <span th:text="${company.comName}"></span></p>
-        <p>대표자명: <span th:text="${company.ceoName}"></span></p>
-        <p>사업자등록번호: <span th:text="${company.businessNo}"></span></p>
-        <p>연락처: <span th:text="${company.tel}"></span></p>
-        <p>이메일: <span th:text="${company.email}"></span></p>
-        <p>주소: <span th:text="${company.address}"></span></p>
-        <p>기업형태: <span th:text="${company.comType}"></span></p>
-        <p>업종: <span th:text="${company.comSector}"></span></p>
-        <p>사원수: <span th:text="${company.employeeCount}"></span></p>
-        <p>매출액: <span th:text="${company.sales}"></span></p>
-    </div>
-        <form action="modify" method="post">
-    	<input type="submit" value="수정하기">
-    </form>
+    	<span th:if="${company != null}" th:text="${session.company.comName} + ' 기업의 페이지입니다.'"></span><br/>
+    	<a th:href="@{/myJobPostings}">내가 쓴 공고 조회</a><br/>
+    	<a th:href="@{/bookMarkedJobSeeker}">북마크 한 구직자 조회</a><br/>
+    	<a th:href="@{/modifyPrivacy}">회사정보 수정</a><br/>
+    	<a th:href="@{/withdraw}">회원탈퇴</a><br/>
+	</div>
 </body>
 </html>
