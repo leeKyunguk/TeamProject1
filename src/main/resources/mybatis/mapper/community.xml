@@ -75,8 +75,8 @@
 
     <!-- 댓글 등록 -->
     <insert id="insertComment">
-        INSERT INTO comment (boardNo, userNo, comNo, commentContent, commentRegDate)
-        VALUES (#{boardNo}, #{userNo}, #{comNo}, #{commentContent}, NOW());
+        INSERT INTO comment (boardNo, userNo, comNo, comment, commentRegDate)
+        VALUES (#{boardNo}, #{userNo}, #{comNo}, #{comment}, NOW());
     </insert>
 
     <!-- 게시글 삭제 -->
