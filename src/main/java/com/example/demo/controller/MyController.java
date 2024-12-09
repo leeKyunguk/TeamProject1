@@ -200,7 +200,6 @@ public class MyController {
 			if (company != null) {
 				model.addAttribute("company", company);
 				String usersId = company.getUsersId();
-				System.out.println(usersId);
 				List<JobPosting> myJobPostings = ijobposting.getJobPostingsByPostUsersId(usersId);
 				model.addAttribute("myJobPostings", myJobPostings);
 				return "myJobPostings";

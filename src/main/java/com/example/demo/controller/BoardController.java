@@ -72,7 +72,6 @@ public class BoardController {
     // 게시글 상세 페이지
     @GetMapping("/detail/{boardNo}")
     public String getBoardDetail(@PathVariable("boardNo") int boardNo, Model model) {
-    	System.out.println(boardService.getBoardDetail(boardNo).toString());
         model.addAttribute("board", boardService.getBoardDetail(boardNo));
         model.addAttribute("comment", new Comment());
         return "communityDetail"; // 게시글 상세 페이지

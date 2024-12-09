@@ -123,7 +123,6 @@ public class MoveController {
 	@RequestMapping("/showApplicant")
 	public String applicantlist(@RequestParam("postNo") int postNo, Model model) {
 	    List<Applicant> applist = ijp.getapplicantlist(postNo);
-	    System.out.println("이런거이런거이런거이런거"+applist);
 	    model.addAttribute("applist", applist);
 	    return "showApplicant";
 	}
@@ -136,7 +135,6 @@ public class MoveController {
 		applicant.setUserNo(userNo);
 		ijp.applicatePost(applicant);
 
-		System.out.println(applicant);
 		session.setAttribute("applicant", applicant);
 		
 		List<JobPosting> list = ijp.getList();
