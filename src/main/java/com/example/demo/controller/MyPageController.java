@@ -21,12 +21,6 @@ public class MyPageController {
    @Autowired
    IJobPosting ijp;
    
-   @RequestMapping("/appliedJobList")
-   public String appliedJobList() {
-      
-      return "appliedJobList";
-   }
-   
    @RequestMapping("/bookMarkedCompany")
    public String bookMarkedCompany(HttpSession session, Model model) {
       UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");

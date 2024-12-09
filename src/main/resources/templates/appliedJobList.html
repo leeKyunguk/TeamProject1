@@ -84,7 +84,7 @@
 </style>
 </head>
 <body>
-<h1>채용공고 리스트</h1>
+<h1>내가 지원한 공고</h1>
 
 <form action="reglist">
     <input type="submit" value="채용공고 작성">
@@ -102,13 +102,13 @@
         </tr>
     </thead>
     <tbody>
-        <tr th:each="list : ${list}">
-            <td>[[${list.postNo}]]</td>
-            <td><a th:href="@{'/jobPosting/detail/' + ${list.postNo} + '?userNo=' + ${session.userProfiles.userNo}}">[[${list.title}]]</a></td>
-            <td>[[${list.comName}]]</td>
-            <td>[[${list.location}]]</td>
-            <td>[[${list.status}]]</td>
-            <td>[[${list.deadline}]]</td>
+        <tr th:each="applied : ${appliedList}">
+            <td th:text="${applied.postNo}"></td>
+			<td><a th:href="@{'/jobPosting/detail/' + ${applied.postNo} + '?userNo=' + ${session.userProfiles.userNo}}" th:text="${applied.title}"></a></td>
+            <td th:text="${applied.comName}"></td>
+            <td th:text="${applied.location}"></td>
+            <td th:text="${applied.status}"></td>
+            <td th:text="${applied.deadline}"></td>
         </tr>
     </tbody>
 </table>

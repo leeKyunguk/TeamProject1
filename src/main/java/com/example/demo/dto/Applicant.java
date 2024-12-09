@@ -21,7 +21,12 @@ public class Applicant {
         }
     }
     private Gender gender;
-	private String teckStack;
+	private String techStack;
 	private int uSalary;
-	
+	private String title;
+	private String comName;
+	private String location;
+	private String status;
+	private String deadline;
+	private String usersId;
 }

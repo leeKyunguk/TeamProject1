@@ -168,18 +168,18 @@
 		</tbody>
 	</table>
 	
-    <div th:if="${session.userProfiles?.usersId != null && session.userProfiles?.usersId != jobPosting.usersId}" class="form-action">
-		<input type="hidden" th:value="${jobPosting.postNo}" name="postNo">
-		<input type="hidden" th:value="${session.userProfiles.userNo}" name="userNo">
+    <div th:if="${session.userProfiles?.usersId != null && session.userProfiles?.usersId != jobPosting.usersId && applicant == null}" class="form-action">
+        <input type="hidden" th:value="${jobPosting.postNo}" name="postNo">
+        <input type="hidden" th:value="${session.userProfiles.userNo}" name="userNo">
         <input type="submit" value="지원하기">
     </div>
 </form>
 
-<form th:if="${(jobPosting?.postNo == applicant?.postNo) && (session.userProfiles?.userNo == applicant?.userNo)}" action="/delApplicant" class="delete-form">
-	<input type="hidden" th:value="${jobPosting?.postNo}" name="postNo">
-	<input type="hidden" th:value="${session.userProfiles?.userNo}" name="userNo">
-	<input type="submit" value="지원 취소">
-</form>
+    <form th:if="${(jobPosting?.postNo == applicant?.postNo) && (session.userProfiles?.userNo == applicant?.userNo)}" action="/delApplicant" class="delete-form">
+        <input type="hidden" th:value="${jobPosting?.postNo}" name="postNo">
+        <input type="hidden" th:value="${session.userProfiles?.userNo}" name="userNo">
+        <input type="submit" value="지원 취소">
+    </form>
 
 <form th:if="${session.company?.usersId == jobPosting.usersId}" action="/update" method="post">
 	<h1>공고 수정</h1>

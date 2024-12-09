@@ -18,6 +18,7 @@ import com.example.demo.dao.IJobPosting;
 import com.example.demo.dto.Applicant;
 import com.example.demo.dto.JobPosting;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -127,6 +128,14 @@ public class MoveController {
 	    return "showApplicant";
 	}
 
+	@RequestMapping("/appliedJobList")
+	public String getAppliedList(@RequestParam("userNo") int userNo, Model model) {
+		Applicant app = new Applicant();
+		app.setUserNo(userNo);
+		List<Applicant> appliedList = ijp.appliedJobList(app);
+		model.addAttribute("appliedList", appliedList);
+		return "appliedJobList";
+	}
 	
 	@RequestMapping("/applicate")
 	public String applicatePost(@RequestParam("postNo") int postNo, @RequestParam("userNo") int userNo, HttpSession session, Model model) {
@@ -155,11 +164,16 @@ public class MoveController {
 	}
 	
 	@RequestMapping("/jobPosting/detail/{postNo}")
-	public String detail(@PathVariable("postNo") int postNo, HttpSession session, Model model) {
+	public String detail(@PathVariable("postNo") int postNo, @RequestParam("userNo") int userNo, HttpSession session, Model model) {
+		Applicant app = new Applicant();
+		app.setUserNo(userNo);
+		app.setPostNo(postNo);
+		Applicant applicated = ijp.getApplicantByPostNoAndUserNo(app);
 		Applicant applicant = (Applicant) session.getAttribute("applicant");
 	    JobPosting jobPosting = ijp.getJobPostingByPostNo(postNo);
+	    System.out.println(applicated);
 	    model.addAttribute("jobPosting", jobPosting);
-	    model.addAttribute("applicant", applicant);
+	    model.addAttribute("applicant", applicated);
 	    return "detail";
 	}
 

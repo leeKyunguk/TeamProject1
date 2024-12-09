@@ -19,4 +19,6 @@ public interface IJobPosting {
     public List<Applicant> getapplicantlist(int postNo);
     public void applicatePost(Applicant applicant);
     public void delApplicant(Applicant applicant);
+    public List<Applicant> appliedJobList(Applicant applicant);
+    public Applicant getApplicantByPostNoAndUserNo(Applicant applicant);
 }

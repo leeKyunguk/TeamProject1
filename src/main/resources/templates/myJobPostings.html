@@ -104,7 +104,7 @@
     <tbody>
         <tr th:each="myJobPostings : ${myJobPostings}">
             <td>[[${myJobPostings.postNo}]]</td>
-            <td><a th:href="@{'/jobPosting/detail/' + ${myJobPostings.postNo}}">[[${myJobPostings.title}]]</a></td>
+            <td><a th:href="@{'showApplicant?postNo=' + ${myJobPostings.postNo}}">[[${myJobPostings.title}]]</a></td>
             <td>[[${myJobPostings.comName}]]</td>
             <td>[[${myJobPostings.location}]]</td>
             <td>[[${myJobPostings.status}]]</td>

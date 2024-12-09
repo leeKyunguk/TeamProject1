@@ -5,10 +5,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.IJobPosting">
     <insert id="reglist" parameterType="com.example.demo.dto.JobPosting">
-        INSERT INTO jobposting (
+        INSERT INTO jobPosting (
             postNo, comNo, managerName, usersId, postExperience, workType, postGradu,
             title, postDescription, postTechStack, location, postSalary,
-            regdate, deadline, status
+            regDate, deadline, status
         ) VALUES (
             null, #{comNo}, #{managerName}, #{usersId}, #{postExperience}, #{workType}, #{postGradu},
             #{title}, #{postDescription}, #{postTechStack}, #{location}, #{postSalary},
@@ -16,7 +16,7 @@
         )
     </insert>
     <select id="getList" resultType="com.example.demo.dto.JobPosting">
-		SELECT j.postNo, j.title, c.comname, j.location, j.status, j.deadline FROM jobposting j JOIN company c ON j.comNo=c.comNo ORDER BY j.postNo DESC;
+		SELECT j.postNo, j.title, c.comname, j.location, j.status, j.deadline FROM jobPosting j JOIN company c ON j.comNo=c.comNo ORDER BY j.postNo DESC;
    </select>
    <select id="getJobPostingByPostNo" resultType="com.example.demo.dto.JobPosting">
         SELECT jp.postNo, c.comName, jp.usersId, jp.managerName, jp.postExperience, jp.workType, jp.postGradu, 
@@ -26,13 +26,18 @@
         JOIN Company c ON jp.comNo = c.comNo
         WHERE jp.postNo = #{postNo}
     </select>
-    
+    <select id="appliedJobList" resultType="com.example.demo.dto.Applicant">
+    SELECT a.postno, j.title, c.comName, j.location, j.status, j.deadline FROM applicant a JOIN jobPosting j ON a.postno = j.postno JOIN company c ON c.comno = j.comno WHERE a.userno = #{userNo};
+    </select>
     <select id="getJobPostingsByPostUsersId" resultType="com.example.demo.dto.JobPosting">
     	SELECT jp.postNo, jp.title, c.comName, jp.location, jp.`status`, jp.deadline FROM users u JOIN jobPosting jp ON u.usersid = jp.usersid join company c on jp.comNo = c.comNo where u.usersid = #{usersId};
     </select>
+    <select id="getApplicantByPostNoAndUserNo" resultType="com.example.demo.dto.JobPosting">
+    	SELECT jp.postNo, jp.title, c.comName, jp.location, jp.`status`, jp.deadline FROM users u JOIN jobPosting jp ON u.usersid = jp.usersid join company c on jp.comNo = c.comNo where u.usersid = #{usersId} and jp.postNo = #{postNo};
+    </select>
     <insert id="applicatePost" parameterType="com.example.demo.dto.Applicant">
     	INSERT INTO applicant (postNo, userNo)VALUES (#{postNo}, #{userNo})
-    </insert>    
+    </insert>
     <delete id="delApplicant" parameterType="com.example.demo.dto.Applicant">
     	DELETE FROM applicant WHERE postNo = #{postNo} and userNo = #{userNo}
     </delete>
@@ -54,12 +59,13 @@
             postTechStack = #{postTechStack},
             location = #{location},
             postSalary = #{postSalary},
-            regdate = #{regdate},
+            regDate = #{regdate},
             deadline = #{deadline},
             status = #{status}
         WHERE postNo = #{postNo}
     </update>
-    <delete id="deleteJobPosting" parameterType="int">
-        DELETE FROM jobposting WHERE postNo = #{postNo}
-    </delete>
+<delete id="deleteApplicant" parameterType="com.example.demo.dto.Applicant">
+    DELETE FROM applicant WHERE postNo = #{postNo} AND userNo = #{userNo};
+</delete>
+
 </mapper>
