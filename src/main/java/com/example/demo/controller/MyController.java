@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,11 +32,6 @@ public class MyController {
 	@Autowired
 	private IJobPosting ijobposting;
 
-	@GetMapping("/login")
-	public String loginRoot() {
-		return "login";
-	}
-
 	@RequestMapping("/admin")
 	public String adminpage() {
 		return "admin";
@@ -48,25 +42,28 @@ public class MyController {
 			HttpServletRequest request, Model model) {
 		Users result = iusersdao.userLogin(usersId, password);
 		if (result != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("role", result.getRole());
-			if (result.getRole().equals("JOB_SEEKER")) {
-				UserProfiles userProfiles = iusersdao.userInfoLoad(usersId);
-				session.setAttribute("userProfiles", userProfiles);
-				model.addAttribute("userProfiles", userProfiles);
-			} else if (result.getRole().equals("COMPANY")) {
-				Company company = iusersdao.comInfoLoad(usersId);
-				session.setAttribute("company", company);
-				model.addAttribute("company", company);
-			}
-			model.addAttribute("loginSuccess", "로그인 성공");
-			return "index1";
-		} else {
-			model.addAttribute("loginFail", "아이디 또는 비밀번호가 잘못되었습니다.");
-		}
-		return "index1";
-	}
-
+	        HttpSession session = request.getSession();
+	        session.setAttribute("usersId", usersId); // usersId 세션에 저장
+	        session.setAttribute("role", result.getRole());
+	        if (result.getRole().equals("JOB_SEEKER")) {
+	            UserProfiles userProfiles = iusersdao.userInfoLoad(usersId);
+	            session.setAttribute("userProfiles", userProfiles);
+	            model.addAttribute("userProfiles", userProfiles);
+	        } else if (result.getRole().equals("COMPANY")) {
+	            Company company = iusersdao.comInfoLoad(usersId); 
+	            session.setAttribute("company", company);
+	            session.setAttribute("comName", company.getComName()); // 회사명 저장
+	            
+	            model.addAttribute("company", company);
+	        }
+	        model.addAttribute("loginSuccess", "로그인 성공");
+	        return "index1";
+	    } else {
+	        model.addAttribute("loginFail", "아이디 또는 비밀번호가 잘못되었습니다.");
+	    }
+	        return "index1";
+    }
+	
 	@RequestMapping("/adminlogin")
 	public String adminLogIn(@RequestParam("adminId") String adminId, @RequestParam("adminPw") String adminPw,
 			HttpServletRequest request, Model model) {
@@ -95,7 +92,6 @@ public class MyController {
 	@RequestMapping("/userDetail")
 	public String userdetail(HttpSession session, Model model) {
 		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
-		Company company = (Company) session.getAttribute("company");
 		if (userProfiles != null && Role.valueOf(userProfiles.getRole().toString()) == Role.JOB_SEEKER) {
 			model.addAttribute("userProfiles", userProfiles);
 			return "userDetail";
@@ -191,7 +187,50 @@ public class MyController {
 		}
 		return "/companyDetail";
 	}
-
+	
+	/*
+	 * @RequestMapping("/modifyCom") public String modifyCom(@ModelAttribute Company
+	 * company, HttpSession session, Model model) {
+	 * company.setUsersId(company.getUsersId());
+	 * company.setPassword(company.getPassword());
+	 * company.setComName(company.getComName());
+	 * company.setCeoName(company.getCeoName());
+	 * company.setBusinessNo(company.getBusinessNo());
+	 * company.setTel(company.getTel()); company.setEmail(company.getEmail());
+	 * company.setAddress(company.getAddress());
+	 * company.setComType(company.getComType());
+	 * company.setComSector(company.getComSector());
+	 * company.setEmployeeCount(company.getEmployeeCount());
+	 * company.setSales(company.getSales()); int rowsAffected =
+	 * iusersdao.updateCompany(company); if (rowsAffected > 0) { Company
+	 * updatedCompany = iusersdao.comInfoLoad(company.getUsersId());
+	 * session.setAttribute("company", updatedCompany);
+	 * model.addAttribute("company", updatedCompany); } return "modifyCom"; }
+	 */	
+	@RequestMapping("/modifyUser")
+	    public String modify1(@ModelAttribute UserProfiles userProfiles, HttpSession session, Model model) {        
+			userProfiles.setUsersId(userProfiles.getUsersId());
+	        userProfiles.setPassword(userProfiles.getPassword());
+	        userProfiles.setUserName(userProfiles.getUserName());
+	        userProfiles.setNickname(userProfiles.getNickname());
+	        userProfiles.setResiNumber(userProfiles.getResiNumber());
+	        userProfiles.setRole(userProfiles.getRole());
+	        userProfiles.setPhone(userProfiles.getPhone());
+	        userProfiles.setEmail(userProfiles.getEmail());
+	        userProfiles.setAddress(userProfiles.getAddress());
+	        userProfiles.setGender(userProfiles.getGender());
+	        userProfiles.setTechStack(userProfiles.getTechStack());
+	        userProfiles.setUSalary(userProfiles.getUSalary());
+	        int rowsAffected = iusersdao.updateUserProfile(userProfiles);
+	        if (rowsAffected > 0) {
+	            UserProfiles updatedUserProfile = iusersdao.userInfoLoad(userProfiles.getUsersId());
+	            session.setAttribute("userProfiles", updatedUserProfile);
+	            model.addAttribute("userProfiles", updatedUserProfile);
+	        }
+	        
+	        return "modifyPrivacy";
+	    }
+	
 	@RequestMapping("/myJobPostings")
 	public String mypostlist(HttpSession session, Model model) {
 		Company company = (Company) session.getAttribute("company");

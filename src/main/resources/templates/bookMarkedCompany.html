@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:if="${userProfiles != null}">
+		<h1><span th:if="${userProfiles != null}" th:text="${session.userProfiles.userName} + '님이 북마크한 기업들입니다.'"></span></h1><br/>
+	</div>
+	<hr>
+	<table>
+		<thead>
+			<tr>
+				<th>연번</th>
+				<th>기업명</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</body>
+</html>

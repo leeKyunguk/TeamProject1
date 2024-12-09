@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
+import org.springframework.stereotype.Service;
+
 import com.example.demo.dao.SignUpDao;
 import com.example.demo.dto.Company;
 import com.example.demo.dto.UserProfiles;
 import com.example.demo.dto.Users;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

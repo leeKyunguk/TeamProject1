@@ -105,6 +105,11 @@
     .delete-form input[type="submit"]:hover {
         background-color: #c82333;
     }
+    
+    form input[readonly]{
+    	background-color: #e9ecef;
+    }
+    
 </style>
 </head>
 <body>
@@ -182,20 +187,20 @@
     </form>
 
 <form th:if="${session.company?.usersId == jobPosting.usersId}" action="/update" method="post">
-	<h1>공고 수정</h1>
+    <h1>공고 수정</h1>
     <label for="title">제목</label>
     <input type="text" id="title" th:value="${jobPosting.title}" name="title">
 
     <input type="hidden" th:value="${jobPosting.postNo}" name="postNo">
 
     <label for="comName">회사명</label>
-    <input type="text" id="comName" th:value="${jobPosting.comName}" name="comName">
+    <input type="text" id="comName" th:value="${jobPosting.comName}" name="comName" readonly>
 
     <label for="managerName">채용담당자</label>
     <input type="text" id="managerName" th:value="${jobPosting.managerName}" name="managerName">
 
     <label for="usersId">ID</label>
-    <input type="text" id="usersId" th:value="${jobPosting.usersId}" name="usersId">
+    <input type="hidden" id="usersId" th:value="${jobPosting.usersId}" name="usersId">
 
     <label for="postExperience">경력</label>
     <input type="text" id="postExperience" th:value="${jobPosting.postExperience}" name="postExperience">
@@ -205,13 +210,13 @@
 
     <label for="postGradu">학력</label>
     <select id="postGradu" name="postGradu">
-    	<option th:selected="${jobPosting.postGradu == '대졸'}">대졸</option>
-    	<option th:selected="${jobPosting.postGradu == '전문대학졸'}">전문대학졸</option>
-    	<option th:selected="${jobPosting.postGradu == '고등학교졸업'}">고등학교졸업</option>
-	</select>
-	
+        <option th:selected="${jobPosting.postGradu == '대졸'}">대졸</option>
+        <option th:selected="${jobPosting.postGradu == '전문대학졸'}">전문대학졸</option>
+        <option th:selected="${jobPosting.postGradu == '고등학교졸업'}">고등학교졸업</option>
+    </select>
+
     <label for="postDescription">내용</label>
-    <textarea id="postDescription" th:value="${jobPosting.postDescription}" name="postDescription" style="height: 150px;"></textarea>
+    <textarea id="postDescription" th:text="${jobPosting.postDescription}" name="postDescription" style="height: 150px;"></textarea>
 
     <label for="postTechStack">요구기술스택</label>
     <input type="text" id="postTechStack" th:value="${jobPosting.postTechStack}" name="postTechStack">
@@ -223,7 +228,7 @@
     <input type="text" id="postSalary" th:value="${jobPosting.postSalary}" name="postSalary">
 
     <label for="regdate">등록일</label>
-    <input type="text" id="regdate" th:value="${jobPosting.regdate}" name="regdate">
+    <input type="text" id="regdate" th:value="${jobPosting.regdate}" name="regdate" readonly>
 
     <label for="deadline">마감일</label>
     <input type="text" id="deadline" th:value="${jobPosting.deadline}" name="deadline">
@@ -235,7 +240,7 @@
     </select>
 
     <div th:if="${session.company?.usersId == jobPosting.usersId}" class="form-action">
-        <input type="submit" value="수정" onclick="update()">
+        <input type="submit" value="수정" onclick="update(event)">
     </div>
 </form>
 
@@ -254,8 +259,10 @@
 </form>
 
 <script>
-	function update(){
+	function update(event){
+		event.preventDefault();
 		alert("수정되었습니다.");
+		event.target.form.submit();
 	}
     function del() {
         return confirm("정말로 삭제하시겠습니까?");

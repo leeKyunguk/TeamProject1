@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2><a href="/index1">구직자 정보</a></h2>
+	<hr>
+    <form action="modify" method="post">
+        <p>아이디: <span th:text="${userProfiles.usersId}"></span></p>
+        <p>비밀번호: <span th:text="${userProfiles.password}"></span></p>
+        <p>이름: <span th:text="${userProfiles.userName}"></span></p>
+        <p>닉네임: <span th:text="${userProfiles.nickname}"></span></p>
+        <p>주민등록번호: <span th:text="${userProfiles.resiNumber}"></span></p>
+        <p>핸드폰번호: <span th:text="${userProfiles.phone}"></span></p>
+        <p>이메일: <span th:text="${userProfiles.email}"></span></p>
+        <p>주소: <span th:text="${userProfiles.address}"></span></p>
+        <p>성별: <span th:text="${userProfiles.gender}"></span></p>
+        <p>기술스택: <span th:text="${userProfiles.techStack}"></span></p>
+        <p>희망연봉: <span th:text="${userProfiles.uSalary}"></span></p>
+    	<input type="submit" value="수정하기">
+    </form>
+</body>
+</html>

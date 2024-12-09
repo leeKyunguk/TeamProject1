@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.dto.UserProfiles.Gender;
-
 import lombok.Data;
 
 @Data

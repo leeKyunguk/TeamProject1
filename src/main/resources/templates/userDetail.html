@@ -8,22 +8,14 @@
 <h1>개인정보 상세 페이지</h1>
 <a href="/index1">메인 페이지로 가기</a>
 <hr>
-    <div th:if="${userProfiles != null}">
-        <h2>구직자 정보</h2>
-        <p>아이디: <span th:text="${userProfiles.usersId}"></span></p>
-        <p>비밀번호: <span th:text="${userProfiles.password}"></span></p>
-        <p>이름: <span th:text="${userProfiles.userName}"></span></p>
-        <p>닉네임: <span th:text="${userProfiles.nickname}"></span></p>
-        <p>주민등록번호: <span th:text="${userProfiles.resiNumber}"></span></p>
-        <p>핸드폰번호: <span th:text="${userProfiles.phone}"></span></p>
-        <p>이메일: <span th:text="${userProfiles.email}"></span></p>
-        <p>주소: <span th:text="${userProfiles.address}"></span></p>
-        <p>성별: <span th:text="${userProfiles.gender}"></span></p>
-        <p>기술스택: <span th:text="${userProfiles.techStack}"></span></p>
-        <p>희망연봉: <span th:text="${userProfiles.uSalary}"></span></p>
-    </div>
-    <form action="modify" method="post">
-    	<input type="submit" value="수정하기">
-    </form>
+	<div th:if="${userProfiles != null}">
+		<span th:if="${userProfiles != null}" th:text="${session.userProfiles.userName} + ' 님의 페이지입니다.'"></span><br/>
+    	<a th:href="@{/appliedJobList}">내가 지원한 공고 보기</a><br/>
+    	<a th:href="@{/bookMarkedCompany}">북마크 한 기업 조회</a><br/>
+    	<a th:href="@{/scrapedNotice}">스크랩 한 공고 조회</a><br/>
+    	<a th:href="@{/modifyResume}">이력서 관리</a><br/>
+    	<a th:href="@{/modifyPrivacy}">개인정보 수정</a><br/>
+    	<a th:href="@{/withdraw}">회원탈퇴</a><br/>
+	</div>
 </body>
 </html>

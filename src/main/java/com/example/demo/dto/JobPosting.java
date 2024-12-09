@@ -44,7 +44,7 @@ public class JobPosting {
 	}
 	
 	private String comName;
-	private Integer postNo; // 공고번호
+	private int postNo; // 공고번호
 	private int comNo; // 회사 ID
 	private String managerName; // 채용담당자
 	private String usersId;
