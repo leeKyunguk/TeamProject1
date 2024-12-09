@@ -30,7 +30,7 @@
     }
 
     form input[type="text"],
-    form select{
+    form select {
         width: 95%;
         padding: 10px;
         margin: 10px 0;
@@ -40,13 +40,13 @@
     }
     
     form textarea {
-    	width: 95%;
+        width: 95%;
         padding: 10px;
         margin: 10px 0;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 1rem;
-    	resize: vertical;
+        resize: vertical;
     }
 
     form input[type="submit"] {
@@ -69,22 +69,29 @@
         margin-bottom: 5px;
         display: block;
     }
+
+    .hidden {
+        display: none;
+    }
+    
+    input[readonly]{
+    	background-color : #e9ecef;
+    }
 </style>
 </head>
 <body>
 <h1>공고 등록</h1>
 <form action="regist">
-    <label for="postNo">공고번호</label>
-    <input type="text" id="postNo" name="postNo">
+    <input type="hidden" id="postNo" name="postNo" value="0">
 
     <label for="comName">회사명</label>
-    <input type="text" id="comName" name="comName">
+	<input type="text" id="comName" name="comName" th:value="${comName}" readonly>
+
 
     <label for="managerName">채용담당자</label>
     <input type="text" id="managerName" name="managerName">
 
-    <label for="usersId">작성자</label>
-    <input type="text" id="usersId" name="usersId">
+    <input type="hidden" id="usersId" name="usersId" th:value="${usersId}" readonly>
 
     <label for="postExperience">경력</label>
     <input type="text" id="postExperience" name="postExperience" placeholder="신입, 경력 1~3년">

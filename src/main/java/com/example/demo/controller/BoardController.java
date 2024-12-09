@@ -136,6 +136,7 @@ public class BoardController {
         }
 
         boardService.insertComment(comment);
+        System.out.println(comment);
         return ResponseEntity.ok("댓글이 성공적으로 등록되었습니다.");
     }
 

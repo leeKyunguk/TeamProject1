@@ -94,9 +94,9 @@
 </style>
 </head>
 <body>
-<h1>채용공고 리스트</h1>
+<h1><a href="/">채용공고 리스트</a></h1>
 
-<div th:if="${company != null}">
+<div th:if="${session.company != null}">
 <form action="reglist">
     <input type="submit" value="채용공고 작성">
 </form>
@@ -124,18 +124,17 @@
             <td>
                 <button type="button" class="star"
                 th:if="session.userProfiles != null"
-                onclick="bookmark(this, '[[${list.comNo}]]')">★</button>
+                onclick="bookmark(this, '${list.comNo}')">★</button>
             </td>
         </tr>
     </tbody>
 </table>
 
-<script th:inline="javascript">
+<script>
 function bookmark(button, comNo) {
-	/*<![CDATA[*/
-    const userProfiles = /*[[${session.userProfiles} != null ? session.userProfiles : '{}']]*/ {};
-    console.log(userProfiles);
-    /*]]>*/
+    const userProfilesElement = document.getElementById('userProfiles');
+    const userProfiles = userProfilesElement ? JSON.parse(userProfilesElement.getAttribute('data-userprofiles')) : null;
+
     if (!userProfiles) {
         alert("로그인이 필요합니다.");
         return;

@@ -40,29 +40,27 @@ public class MyController {
 		return "login";
 	}
 	
-<<<<<<< HEAD
-//	@RequestMapping("/")
-//	public String root(HttpSession session, Model model) {
-//	    Role role = (Role) session.getAttribute("role");
-//	    if (role != null) {
-//	    	if (role.equals("구직자")) {
-//	    		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
-//	    		if (userProfiles != null) {
-//	    			model.addAttribute("userProfiles", userProfiles);
-//	    		}
-//	    	} else if (role.equals("기업")) {
-//	    		Company company = (Company) session.getAttribute("company");
-//	    		if (company != null) {
-//	    			model.addAttribute("company", company);
-//	    		}
-//	    	}
-//	    }
-//	    return "/index";
-//	}
-=======
-	
-	
 	/*
+	@RequestMapping("/")
+	public String root(HttpSession session, Model model) {
+	    Role role = (Role) session.getAttribute("role");
+	    if (role != null) {
+	    	if (role.equals("구직자")) {
+	    		UserProfiles userProfiles = (UserProfiles) session.getAttribute("userProfiles");
+	    		if (userProfiles != null) {
+	    			model.addAttribute("userProfiles", userProfiles);
+	    		}
+	    	} else if (role.equals("기업")) {
+	    		Company company = (Company) session.getAttribute("company");
+	    		if (company != null) {
+	    			model.addAttribute("company", company);
+	    		}
+	    	}
+	    }
+	    return "/index";
+	}
+	
+	
 	@RequestMapping("/")
 	public String root(HttpSession session, Model model) {
 	    Role role = (Role) session.getAttribute("role");
@@ -82,7 +80,6 @@ public class MyController {
 	    return "/index";
 	}
 	*/
->>>>>>> f3aab77fa452a4fcf3acd79dc1b2e572c38b5076
 	
 	@RequestMapping("/admin")
 	public String adminpage() {
@@ -94,6 +91,7 @@ public class MyController {
 		Users result = iusersdao.userLogin(usersId, password);
 		if (result != null) {
 	        HttpSession session = request.getSession();
+	        session.setAttribute("usersId", usersId); // usersId 세션에 저장
 	        session.setAttribute("role", result.getRole());
 	        if (result.getRole().equals("JOB_SEEKER")) {
 	            UserProfiles userProfiles = iusersdao.userInfoLoad(usersId);
@@ -102,6 +100,8 @@ public class MyController {
 	        } else if (result.getRole().equals("COMPANY")) {
 	            Company company = iusersdao.comInfoLoad(usersId); 
 	            session.setAttribute("company", company);
+	            session.setAttribute("comName", company.getComName()); // 회사명 저장
+	            
 	            model.addAttribute("company", company);
 	        }
 	        model.addAttribute("loginSuccess", "로그인 성공");

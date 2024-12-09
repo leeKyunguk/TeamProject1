@@ -30,23 +30,14 @@
         JOIN company c ON jp.comNo = c.comNo
         WHERE jp.postNo = #{postNo}
     </select>
-<<<<<<< HEAD
 
-    <update id="updateJobPosting" parameterType="com.example.demo.dto.JobPosting">
-        UPDATE jobposting
-        SET comNo = #{comNo}, managerName = #{managerName}, usersId = #{usersId},
-            postExperience = #{postExperience}, workType = #{workType}, postGradu = #{postGradu},
-            title = #{title}, postDescription = #{postDescription}, postTechStack = #{postTechStack},
-            location = #{location}, postSalary = #{postSalary}, regdate = #{regdate},
-            deadline = #{deadline}, status = #{status}
-        WHERE postNo = #{postNo}
-    </update>
+    
 
     <delete id="deleteBookmarkByComName">
         DELETE FROM usersubscribecom
         WHERE comNo = (SELECT comNo FROM company WHERE comName = #{comName})
         AND userNo = #{userNo} AND ucSubscribed = 'Y';
-=======
+   </delete>
     <insert id="applicatePost" parameterType="com.example.demo.dto.Applicant">
     	INSERT INTO applicant (postNo, userNo)VALUES (#{postNo}, #{userNo})
     </insert>    
@@ -78,7 +69,6 @@
     </update>
     <delete id="deleteJobPosting" parameterType="int">
         DELETE FROM jobposting WHERE postNo = #{postNo}
->>>>>>> f3aab77fa452a4fcf3acd79dc1b2e572c38b5076
     </delete>
 
     <insert id="addBookmark">

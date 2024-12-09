@@ -17,7 +17,7 @@
         FROM board b
         LEFT JOIN userProfiles up ON b.userNo = up.userNo
         LEFT JOIN company c ON b.comNo = c.comNo
-        ORDER BY b.boardRegDate DESC
+        ORDER BY b.boardno DESC
         LIMIT #{limit} OFFSET #{offset};
     </select>
 
@@ -61,6 +61,20 @@
         WHERE c.boardNo = #{boardNo}
         ORDER BY c.commentRegDate ASC;
     </select>
+    
+    <select id="getCommentDetail" parameterType="int" resultType="com.example.demo.dto.Comment">
+       SELECT 
+           commentNo,
+           boardNo,
+           userNo,
+           comNo,
+           comment,
+           commentRegDate
+       FROM comment
+       WHERE commentNo = #{commentNo};
+   </select>
+    
+    
 
     <!-- 게시글 총 개수 조회 -->
     <select id="getBoardCount" resultType="int">

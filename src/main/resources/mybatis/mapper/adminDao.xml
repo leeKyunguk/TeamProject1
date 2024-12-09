@@ -7,5 +7,4 @@
 	<select id="adminLogin" resultType="com.example.demo.dto.Admin">
 		SELECT * from admin where adminId = #{adminId} and adminPw = #{adminPw}
 	</select>
-	
 </mapper>

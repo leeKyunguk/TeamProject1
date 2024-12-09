@@ -34,17 +34,25 @@ public class MoveController {
 		List<JobPosting> list = ijp.getList();
 
 		model.addAttribute("list", list);
-		return "viewJobsPostings"; // viewJobsPostings.html 페이지 반환
+		
+		return "viewJobsPostings";
 	}
 
 	@RequestMapping("/reglist")
 	public String reglist(HttpSession session, Model model) {
-		String comName = (String) session.getAttribute("comName");
-		String managerName = (String) session.getAttribute("managerName");
+	    String usersId = (String) session.getAttribute("usersId");
+	    String comName = (String) session.getAttribute("comName");
+	    
+	    System.out.println(usersId);
+	    System.out.println(comName);
 
-		model.addAttribute("comName", comName);
-		model.addAttribute("managerName", managerName);
-		return "reglist";
+	    model.addAttribute("comName", comName);
+	    model.addAttribute("usersId", usersId);
+	    session.setAttribute("usersId", usersId);
+	    session.setAttribute("comName", comName);
+	    
+
+	    return "reglist";
 	}
 
 	@RequestMapping("/regist")
@@ -78,7 +86,7 @@ public class MoveController {
 		jp.setStatus(convertStatus(status));
 
 		ijp.reglist(jp);
-		return "redirect:/viewlist";
+		return "redirect:/viewJobsPostings";
 	}
 
 	private JobPosting.PostGradu convertPostGradu(String postGradu) {
@@ -104,13 +112,14 @@ public class MoveController {
 			throw new IllegalArgumentException("Unknown graduation level: " + status);
 		}
 	}
-<<<<<<< HEAD
 
 	@RequestMapping("/viewlist")
-=======
+	public String viewlist() {
+		return "viewlist";
+		
+	}
 	
 	@RequestMapping("/viewJobsPostings")
->>>>>>> f3aab77fa452a4fcf3acd79dc1b2e572c38b5076
 	public String list(Model model) {
 		List<JobPosting> list = ijp.getList();
 
@@ -118,17 +127,14 @@ public class MoveController {
 
 		return "viewJobsPostings";
 	}
-<<<<<<< HEAD
 
 	@RequestMapping("/jobPosting/detail/{postNo}")
 	public String detail(@PathVariable("postNo") int postNo, Model model) {
 		JobPosting jobPosting = ijp.getJobPostingByPostNo(postNo);
 		model.addAttribute("jobPosting", jobPosting);
 
-		System.out.println(jobPosting);
 		return "detail";
 	}
-=======
 	
 	@RequestMapping("/showApplicant")
 	public String applicantlist(@RequestParam("postNo") int postNo, Model model) {
@@ -144,7 +150,6 @@ public class MoveController {
 		applicant.setUserNo(userNo);
 		ijp.applicatePost(applicant);
 
-		System.out.println(applicant);
 		session.setAttribute("applicant", applicant);
 		
 		List<JobPosting> list = ijp.getList();
@@ -163,16 +168,6 @@ public class MoveController {
 		model.addAttribute("list", list);
 		return "viewJobsPostings";
 	}
-	
-	@RequestMapping("/jobPosting/detail/{postNo}")
-	public String detail(@PathVariable("postNo") int postNo, HttpSession session, Model model) {
-		Applicant applicant = (Applicant) session.getAttribute("applicant");
-	    JobPosting jobPosting = ijp.getJobPostingByPostNo(postNo);
-	    model.addAttribute("jobPosting", jobPosting);
-	    model.addAttribute("applicant", applicant);
-	    return "detail";
-	}
->>>>>>> f3aab77fa452a4fcf3acd79dc1b2e572c38b5076
 
 	@RequestMapping("/update")
 	public String update(@RequestParam("postNo") int postNo, @RequestParam("comName") String comName,
@@ -193,7 +188,7 @@ public class MoveController {
 		jobPosting.setUsersId(usersId);
 		jobPosting.setPostExperience(postExperience);
 		jobPosting.setWorkType(workType);
-		jobPosting.setPostGradu(convertPostGradu(postGradu)); // enum으로 변환
+		jobPosting.setPostGradu(convertPostGradu(postGradu));
 		jobPosting.setTitle(title);
 		jobPosting.setPostDescription(postDescription);
 		jobPosting.setPostTechStack(postTechStack);
@@ -201,48 +196,18 @@ public class MoveController {
 		jobPosting.setPostSalary(postSalary);
 		jobPosting.setRegdate(LocalDate.parse(regdate));
 		jobPosting.setDeadline(LocalDate.parse(deadline));
-		jobPosting.setStatus(convertStatus(status)); // enum으로 변환
+		jobPosting.setStatus(convertStatus(status));
 
 		ijp.updateJobPosting(jobPosting);
 
-<<<<<<< HEAD
-		return "redirect:/viewlist";
-	}
-
-	@RequestMapping("/delete")
-	public String delete(@RequestParam("postNo") int postNo) {
-		ijp.deleteJobPosting(postNo);
-		return "redirect:/viewlist";
-	}
-
-//	@RequestMapping("/bookMarkedCompany")
-//	public @ResponseBody String bookMarkedCompany(@RequestParam("comName") String comName,
-//			@RequestParam("userNo") int userNo) {
-//		try {
-//			boolean isBookmarked = ijp.isBookmarked(comName, userNo);
-//
-//			if (isBookmarked) {
-//				ijp.deleteBookmark(comName, userNo);
-//				return "북마크가 취소되었습니다.";
-//			} else {
-//				ijp.addBookmark(comName, userNo);
-//				return "북마크 되었습니다.";
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "북마크 처리 중 오류가 발생했습니다.";
-//		}
-//	}
-	
-=======
-	    return "redirect:/viewJobsPostings";
+		return "redirect:/viewJobsPostings";
 	}
 
     @RequestMapping("/delete")
     public String delete(@RequestParam("postNo") int postNo) {
         ijp.deleteJobPosting(postNo);
+        System.out.println(postNo+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         return "redirect:/viewJobsPostings";
     }
->>>>>>> f3aab77fa452a4fcf3acd79dc1b2e572c38b5076
 
 }

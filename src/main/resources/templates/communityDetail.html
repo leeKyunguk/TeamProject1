@@ -34,13 +34,10 @@
                 <span th:if="${comment.comNo != null}" th:text="${comment.writerName}">기업명</span>: 
                 <span th:text="${comment.comment}">댓글 내용</span>
             </p>
-
             <!-- 댓글 등록일 -->
             <p>등록일: <span th:text="${comment.commentRegDate}">등록일</span></p>
-
-            <!-- 댓글 삭제 링크 -->
-            <a th:if="${comment.commentNo != null}" 
-               th:href="@{/comment/delete/{commentNo}(commentNo=${comment.commentNo}, boardNo=${board.boardNo})}">삭제</a>
+            <!-- 댓글 삭제 버튼 -->
+            <button class="delete-comment-btn" th:data-comment-no="${comment.commentNo}">삭제</button>
         </li>
     </ul>
 
@@ -55,12 +52,12 @@
     <button type="button" id="submitComment">댓글 등록</button>
 
     <!-- 게시글 번호 전달 -->
-    <div id="boardData" data-board-no="/*[[${board.boardNo}]]*/"></div>
+    <div id="boardData" th:data-board-no="${board.boardNo}"></div>
 
     <script>
         $(document).ready(function () {
             // 게시글 번호를 HTML에서 가져오기
-            const boardNo = document.getElementById('boardData').dataset.boardNo;
+            const boardNo = $('#boardData').data('board-no');
 
             if (!boardNo) {
                 console.error("게시글 번호를 가져올 수 없습니다!");
@@ -69,21 +66,24 @@
 
             console.log("게시글 번호:", boardNo);
 
-            // 댓글 등록 버튼 클릭 이벤트 처리
+            /**
+             * 댓글 등록 버튼 클릭 이벤트 처리
+             * - 댓글 내용을 서버에 POST 요청으로 전송
+             */
             $('#submitComment').on('click', function () {
-                const comment = $('#comment').val();
-                if (!comment.trim()) {
+                const comment = $('#comment').val().trim();
+                if (!comment) {
                     alert('댓글 내용을 입력해주세요.');
                     return;
                 }
 
                 const commentData = {
-                    boardNo: boardNo,
-                    comment: comment
+                    boardNo: boardNo, // 게시글 번호
+                    comment: comment  // 댓글 내용
                 };
 
                 $.ajax({
-                    url: '/comment/save',
+                    url: '/comment/save', // 서버 댓글 저장 API
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(commentData),
@@ -93,8 +93,40 @@
                         location.reload(); // 새로고침
                     },
                     error: function (err) {
-                        console.error(err);
+                        console.error(err); // 에러 로그 출력
                         alert('댓글 등록에 실패했습니다.');
+                    }
+                });
+            });
+
+            /**
+             * 댓글 삭제 버튼 클릭 이벤트 처리
+             * - 댓글 번호를 서버로 DELETE 요청으로 전송
+             */
+            $(document).on('click', '.delete-comment-btn', function (e) {
+                e.preventDefault(); // 기본 동작 막기
+                const commentNo = $(this).data('comment-no'); // 댓글 번호 가져오기
+                console.log("삭제할 댓글 번호:", commentNo); // 디버깅 로그 추가
+
+                if (!commentNo) {
+                    alert("삭제할 댓글 번호를 찾을 수 없습니다.");
+                    return;
+                }
+
+                if (!confirm("정말로 댓글을 삭제하시겠습니까?")) {
+                    return;
+                }
+
+                $.ajax({
+                    url: `/comment/delete/${commentNo}`, // 서버 댓글 삭제 API
+                    type: 'DELETE', // HTTP DELETE 메서드 사용
+                    success: function (response) {
+                        alert(response); // 성공 메시지
+                        location.reload(); // 페이지 새로고침
+                    },
+                    error: function (err) {
+                        console.error(err); // 에러 로그 출력
+                        alert("댓글 삭제에 실패했습니다.");
                     }
                 });
             });
